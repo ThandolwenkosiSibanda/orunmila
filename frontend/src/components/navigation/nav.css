@@ -1,0 +1,15 @@
+.dropdown-item {
+	color: #2e323c !important;
+	padding-left: 10% !important;
+}
+.dropdown-item.active {
+	background-color: #093fab !important;
+	color: #fff !important;
+}
+.dropdown-item:hover {
+	color: #fff !important;
+}
+
+#logo {
+	width: 80px;
+}

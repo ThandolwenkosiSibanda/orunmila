@@ -1,0 +1,10 @@
+.placeholder .loadListItem {
+	background-color: red;
+	color: #e6e6e6;
+}
+
+.btn-loadmore {
+	width: 100%;
+	height: 2rem;
+	border: 0ch;
+}

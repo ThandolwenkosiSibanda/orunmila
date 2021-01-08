@@ -1,0 +1,10 @@
+.loadListItem:hover {
+	cursor: pointer;
+}
+
+.rating {
+	display: inline;
+}
+.starload {
+	font-size: 14px !important;
+}

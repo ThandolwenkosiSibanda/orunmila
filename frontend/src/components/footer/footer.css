@@ -1,0 +1,16 @@
+.footer {
+	background-color: #093fab;
+	color: #fff;
+}
+
+.footer-ul li {
+	margin-top: 1rem;
+	margin-bottom: .8rem;
+	font-size: .6rem;
+	font-weight: 800;
+	line-height: 100%;
+}
+
+.footer-ul li a {
+	color: #fff;
+}
