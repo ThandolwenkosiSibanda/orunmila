@@ -28,7 +28,7 @@ export const addProject = (formValues, csv) => async (dispatch, getState) => {
 	console.log('Reponse', response.data);
 	dispatch({ type: 'ADD_MY_PROJECT', payload: response.data });
 
-	history.push('/myprojects');
+	history.push('/myprojects/?status=active');
 };
 
 // 	FETCH_PROJECTS

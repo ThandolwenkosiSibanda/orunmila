@@ -105,7 +105,7 @@ const ProjectsDashboard = (props) => {
 const mapStateToProps = (state, ownProps) => {
 	return {
 		isSignedIn  : state.auth.isSignedIn,
-		queryString : ownProps.location.search
+		queryString : ownProps.location && ownProps.location.search
 	};
 };
 

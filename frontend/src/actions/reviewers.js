@@ -14,7 +14,7 @@ export const addReviewer = (formValues, projectId) => async (dispatch, getState)
 	// dispatch({ type: 'ADD_REVIEWER', payload: response.data });
 	// dispatch({ type: 'FETCH_MY_PROJECTS_REQUEST', payload: { loading: true } });
 
-	history.push(`/projects`);
+	history.push(`/projects/?status=active`);
 };
 
 export const getReviewers = (projectId) => async (dispatch, getState) => {
