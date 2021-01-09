@@ -94,7 +94,7 @@ const ProjectView = (props) => {
 						props.articles.map((article) => (
 							<React.Fragment>
 								<ArticleListItem article={article} />
-								<div className="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+								<div className="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12">
 									<ArticleVote
 										articleId={article._id}
 										article={article}

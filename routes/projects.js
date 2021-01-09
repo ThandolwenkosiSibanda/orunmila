@@ -115,6 +115,8 @@ router.post(
 		let projectDetails = req.body;
 		let user = req.user;
 		projectDetails.user = user._id;
+		projectDetails.status = 'active';
+		projectDetails.csv = req.files.csv[0].filename;
 		projectDetails.createdAt = Date.now();
 
 		let absolutePath = path.resolve('./uploads/' + req.files.csv[0].filename);
@@ -160,19 +162,33 @@ function importCsvData2MongoDB(filePath, projectId) {
 
 router.get('/api/projects', function(req, res) {
 	let user = req.user._id;
+
+	let { status } = JSON.parse(req.query.status);
+
+	console.log('status', status);
+
 	User.findById(user).populate('projects').sort({ $natural: -1 }).exec(function(err, user) {
 		if (err) {
 			console.log(err);
 		} else {
-			console.log('projects', user.projects);
-			return res.json(user.projects);
+			let filteredProjects =
+				user.projects &&
+				user.projects.filter((project) => {
+					return project.status === status;
+				});
+			console.log('fcount', filteredProjects.length);
+
+			return res.json(filteredProjects);
 		}
 	});
 });
 
 router.get('/api/myprojects', function(req, res) {
 	let user = req.user;
-	console.log('myprojects');
+
+	let { status } = JSON.parse(req.query.status);
+
+	console.log('status', status);
 
 	Project.find({
 		$or : [ { user: user } ]
@@ -184,7 +200,13 @@ router.get('/api/myprojects', function(req, res) {
 			if (err) {
 				console.log(err);
 			} else {
-				return res.json(projects);
+				let filteredProjects =
+					projects &&
+					projects.filter((project) => {
+						return project.status === status;
+					});
+
+				return res.json(filteredProjects);
 			}
 		});
 });

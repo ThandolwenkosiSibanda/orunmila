@@ -1,0 +1,14 @@
+p {
+	color: #8796af;
+}
+.ref {
+	margin-left: 20px;
+}
+.label {
+	background-color: red;
+	width: 100%;
+}
+
+.projectList {
+	background-color: rgb(141, 80, 80);
+}

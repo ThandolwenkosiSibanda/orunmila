@@ -15,28 +15,9 @@ var ProjectSchema = new mongoose.Schema({
 		type     : String,
 		required : false
 	},
-	journal   : {
-		type     : String,
-		required : false
-	},
-	refID     : {
-		type     : String,
-		required : false
-	},
-	Link      : {
-		type     : String,
-		required : false
-	},
-	reference : {
-		type     : String,
-		required : false
-	},
-	Abstract  : {
-		type     : String,
-		required : false
-	},
+
 	threshold : {
-		type     : String,
+		type     : Number,
 		required : false
 	},
 
@@ -44,12 +25,6 @@ var ProjectSchema = new mongoose.Schema({
 		type     : String,
 		required : false
 	},
-	ratings   : [
-		{
-			type : mongoose.Schema.Types.ObjectId,
-			ref  : 'Rating'
-		}
-	],
 	reviewers : [
 		{
 			type : mongoose.Schema.Types.ObjectId,

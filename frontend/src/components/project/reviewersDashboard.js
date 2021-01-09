@@ -36,13 +36,12 @@ const ReviewersDashboard = (props) => {
 
 	return (
 		<React.Fragment>
-			{console.log(props.reviewers)}
-			<div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+			<div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
 				<section className="task-list">
 					<div className="task-block card">
 						<div className="task-details">
 							<div className="task-name">Reviewers </div>
-							<button className="btn btn-primary float-right ml-2" onClick={showAddReviewerModal}>
+							<button className="btn btn-primary float-right " onClick={showAddReviewerModal}>
 								Add A Reviewer
 							</button>
 
@@ -68,7 +67,6 @@ const ReviewersDashboard = (props) => {
 };
 
 const mapStateToProps = (state, OwnProps) => {
-	console.log('ownpr', OwnProps);
 	return {
 		currentUser : state.auth.userId
 	};

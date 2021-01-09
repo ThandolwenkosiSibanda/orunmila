@@ -2,8 +2,9 @@ import { put, takeLatest, takeEvery, all, call } from 'redux-saga/effects';
 import axios from '../apis/backend';
 
 /** function that returns an axios call */
-const projectApi = async () => {
-	return await axios.get('/api/projects');
+const projectApi = async (status) => {
+	console.log('project status', status);
+	return await axios.get('/api/projects', { params: { status } });
 };
 
 /**
@@ -12,7 +13,7 @@ const projectApi = async () => {
 
 function* fetchProjects(action) {
 	try {
-		let { data } = yield call(projectApi);
+		let { data } = yield call(projectApi, action.payload);
 
 		console.log('getProjects', data);
 		yield put({ type: 'FETCH_PROJECTS_SUCCESS', payload: data });

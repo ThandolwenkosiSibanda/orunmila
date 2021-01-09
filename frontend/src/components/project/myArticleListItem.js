@@ -39,10 +39,10 @@ const MyArticleListItem = (props) => {
 
 	return (
 		<React.Fragment>
-			<div className="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
+			<div className="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
 				<section className="task-list">
 					<div className="task-block card">
-						<div className="task-details">
+						<div className="task-details ">
 							<p>
 								<small>
 									<strong>#ID:</strong> {props.article._id}
@@ -50,7 +50,7 @@ const MyArticleListItem = (props) => {
 							</p>
 
 							<p>
-								<small>{props.article.Link}</small>
+								<small />
 							</p>
 							<div className="task-name">{props.article.Title}</div>
 							<p>

@@ -23,9 +23,19 @@ const MyProjectListItem = (props) => {
 		[ props.project.reviewers && props.project.reviewers.length ]
 	);
 
+	useEffect(
+		() => {
+			let isSubscribed = true;
+			try {
+			} catch (err) {}
+			return () => (isSubscribed = false);
+		},
+		[ props.status ]
+	);
+
 	return (
 		<React.Fragment>
-			<div className="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
+			<div className="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
 				<section className="task-list">
 					<Link to={`/myprojects/${props.project._id}`}>
 						<div className="task-block card">

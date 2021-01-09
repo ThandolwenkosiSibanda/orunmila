@@ -12,6 +12,16 @@ const ProjectListItem = (props) => {
 	const [ IsOpen, setIsOpen ] = useState(false);
 	const [ LoadId, setLoadId ] = useState('');
 
+	useEffect(
+		() => {
+			let isSubscribed = true;
+			try {
+			} catch (err) {}
+			return () => (isSubscribed = false);
+		},
+		[ props.status ]
+	);
+
 	return (
 		<React.Fragment>
 			{props.project ? (

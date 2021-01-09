@@ -19,17 +19,30 @@ import { removeScript } from '../../utils/removeScript';
 import { getMyProjects } from '../../actions/myprojects';
 import { addProject } from '../../actions/projects';
 import ProjectForm from './projectForm';
-import MyProjectsList from './myProjectsList';
 import LoadListSpinner from '../spinners/loadListSpinner';
 import MyProjectListItem from './myProjectListItem';
-import './myProjectsDashboard.css';
+import './projectsDashboard.css';
 
-const MyProjectsDashboard = (props) => {
+const MyProjectsList = (props) => {
 	const [ IsOpen, setIsOpen ] = useState(false);
 	const useStyles = makeStyles((theme) => ({}));
 	const classes = useStyles();
 	const [ expanded, setExpanded ] = React.useState(false);
+	const [ Status, setStatus ] = useState('');
 	const [ error, setError ] = useState('');
+
+	useEffect(
+		() => {
+			let isSubscribed = true;
+			try {
+				props.getMyProjects(props.status);
+			} catch (err) {
+				setError(err);
+			}
+			return () => (isSubscribed = false);
+		},
+		[ props.status ]
+	);
 
 	const showModal = () => {
 		setIsOpen(true);
@@ -46,53 +59,50 @@ const MyProjectsDashboard = (props) => {
 	const handleChange = (panel) => (event, isExpanded) => {
 		setExpanded(isExpanded ? panel : false);
 	};
-
-	const queryString = () => {
-		let values = queryStringParser.parse(props.queryString);
-
-		if (values.status === undefined || values.status === null) {
-			return 'active';
+	const renderCreateLoad = () => {
+		if (props.isSignedIn) {
+			return (
+				<div className="row">
+					<div className="col-sm-12">
+						<button className="btn btn-primary float-right " onClick={showModal}>
+							Post A New Load
+						</button>
+					</div>
+				</div>
+			);
 		}
-
-		return values.status;
 	};
+
 	const capitalise = (string) => {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	};
 
 	return (
 		<React.Fragment>
-			<div className="page-header">
-				<ol className="breadcrumb">
-					<li className="breadcrumb-item active">My {capitalise(queryString())} Projects </li>
-				</ol>
-				<div className="row">
-					<div className="col-sm-12">
-						<button className="btn btn-primary float-right " onClick={showModal}>
-							Create A New Project
-						</button>
-					</div>
-				</div>
-			</div>
-
-			<div className="content-wrapper">
-				<div className="row">
-					<MyProjectsList status={queryString()} />
-				</div>
-			</div>
-
-			<Modal show={IsOpen} onHide={hideModal} size="lg">
-				<ProjectForm onSubmit={onSubmit} />
-			</Modal>
+			{props.projects[0] === 'Error' ? (
+				<div>Error: Please check your network connection and refresh the page</div>
+			) : props.projects[0] === true ? (
+				<React.Fragment>
+					<LoadListSpinner />
+				</React.Fragment>
+			) : (
+				props.projects.map((project) => (
+					<React.Fragment>
+					
+							<MyProjectListItem key={project._id} project={project} status={props.status} />
+					
+					</React.Fragment>
+				))
+			)}
 		</React.Fragment>
 	);
 };
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		isSignedIn  : state.auth.isSignedIn,
-		queryString : ownProps.location.search
+		projects   : _.toArray(state.myprojects),
+		isSignedIn : state.auth.isSignedIn
 	};
 };
 
-export default connect(mapStateToProps, { getMyProjects, addProject })(MyProjectsDashboard);
+export default connect(mapStateToProps, { getMyProjects, addProject })(MyProjectsList);

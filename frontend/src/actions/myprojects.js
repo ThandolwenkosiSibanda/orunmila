@@ -44,8 +44,8 @@ export const fetchMyProject = (projectId) => async (dispatch) => {
 	dispatch({ type: 'FETCH_MY_ARTICLES', payload: response.data });
 };
 
-export const getMyProjects = () => async (dispatch, getState) => {
-	dispatch({ type: 'FETCH_MY_PROJECTS_REQUEST', payload: { loading: true } });
+export const getMyProjects = (status) => async (dispatch, getState) => {
+	dispatch({ type: 'FETCH_MY_PROJECTS_REQUEST', payload: { loading: true, status: status } });
 };
 
 export const getMyProject = (projectId) => async (dispatch, getState) => {

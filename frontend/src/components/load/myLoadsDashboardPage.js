@@ -48,6 +48,8 @@ class MyLoadsDashboardPage extends Component {
 	queryString() {
 		let values = queryString.parse(this.props.queryString);
 
+		console.log(values);
+
 		if (values.status === undefined || values.status === null) {
 			return 'active';
 		}
@@ -87,12 +89,10 @@ class MyLoadsDashboardPage extends Component {
 	}
 }
 
-
-
 const mapStateToProps = (state, ownProps) => {
 	return {
 		isSignedIn  : state.auth.isSignedIn,
-		queryString : ownProps.location.search
+		queryString : ownProps.location.status
 	};
 };
 

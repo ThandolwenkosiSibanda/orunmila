@@ -140,7 +140,6 @@ router.get('/api/logout', function(req, res) {
 });
 
 router.get('/api/currentuser', (req, res) => {
-	console.log('Current User', req.user);
 	if (req.user) {
 		return res.json(req.user);
 	}

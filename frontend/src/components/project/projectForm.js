@@ -139,18 +139,12 @@ class ProjectForm extends Component {
 												<Field name="title" component={this.renderInput} />
 											</div>
 
+											<div className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-3">
+												<Field name="threshold" component={this.renderInput} />
+											</div>
+
 											<div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-												<img
-													src={
-														this.state.CSVPreview ? (
-															this.state.CSVPreview
-														) : this.props.currentUserAvatar ? (
-															`/images/${this.props.CSV}`
-														) : (
-															''
-														)
-													}
-												/>
+												<p>{this.state.CSV && this.state.CSV.name}</p>
 
 												<Field name="CSV" component={this.renderCSV} />
 											</div>

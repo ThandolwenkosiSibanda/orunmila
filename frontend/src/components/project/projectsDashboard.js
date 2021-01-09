@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import Pagination from '@material-ui/lab/Pagination';
-import queryString from 'query-string';
+import queryStringParser from 'query-string';
 import { makeStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -21,6 +21,7 @@ import { addProject } from '../../actions/projects';
 import ProjectForm from './projectForm';
 import LoadListSpinner from '../spinners/loadListSpinner';
 import ProjectListItem from './projectListItem';
+import ProjectsList from './projectsList';
 import './projectsDashboard.css';
 
 const ProjectsDashboard = (props) => {
@@ -28,17 +29,8 @@ const ProjectsDashboard = (props) => {
 	const useStyles = makeStyles((theme) => ({}));
 	const classes = useStyles();
 	const [ expanded, setExpanded ] = React.useState(false);
+	const [ Status, setStatus ] = useState('');
 	const [ error, setError ] = useState('');
-
-	useEffect(() => {
-		let isSubscribed = true;
-		try {
-			props.getProjects();
-		} catch (err) {
-			setError(err);
-		}
-		return () => (isSubscribed = false);
-	}, []);
 
 	const showModal = () => {
 		setIsOpen(true);
@@ -69,13 +61,15 @@ const ProjectsDashboard = (props) => {
 		}
 	};
 	const queryString = () => {
-		let values = queryString.parse(props.queryString);
+		let values = queryStringParser.parse(props.queryString);
 
 		if (values.status === undefined || values.status === null) {
-			return 'current';
+			return 'active';
 		}
+
 		return values.status;
 	};
+
 	const capitalise = (string) => {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	};
@@ -84,7 +78,7 @@ const ProjectsDashboard = (props) => {
 		<React.Fragment>
 			<div className="page-header">
 				<ol className="breadcrumb">
-					<li className="breadcrumb-item active">Assigned Projects</li>
+					<li className="breadcrumb-item active">{capitalise(queryString())} Assigned Projects</li>
 				</ol>
 				<div className="row">
 					<div className="col-sm-12">
@@ -97,15 +91,7 @@ const ProjectsDashboard = (props) => {
 
 			<div className="content-wrapper">
 				<div className="row gutters">
-					{props.projects[0] === 'Error' ? (
-						<div>Error: Please check your network connection and refresh the page</div>
-					) : props.projects[0] === true ? (
-						<React.Fragment>
-							<LoadListSpinner />
-						</React.Fragment>
-					) : (
-						props.projects.map((project) => <ProjectListItem key={project._id} project={project} />)
-					)}
+					<ProjectsList status={queryString()} />
 				</div>
 			</div>
 
@@ -118,8 +104,8 @@ const ProjectsDashboard = (props) => {
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		projects   : _.toArray(state.projects),
-		isSignedIn : state.auth.isSignedIn
+		isSignedIn  : state.auth.isSignedIn,
+		queryString : ownProps.location.search
 	};
 };
 
