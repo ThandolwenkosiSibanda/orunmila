@@ -68,9 +68,9 @@ const ArticleListItem = (props) => {
 									<button className="btn btn-primary">
 										<strong>
 											{expanded && expanded === 'panel' + props.article._id ? (
-												'Hide Abstract & Ref ID'
+												'Hide Abstract'
 											) : (
-												'Show Abstract & Ref ID'
+												'Show Abstract'
 											)}
 										</strong>
 									</button>
