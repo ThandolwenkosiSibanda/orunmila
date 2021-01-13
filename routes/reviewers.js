@@ -8,6 +8,7 @@ const express = require('express'),
 // Required models
 //========================================================================================================================================
 const Project = require('../models/project'),
+	Reviewer = require('../models/reviewer'),
 	{ User } = require('../models/user'),
 	Contract = require('../models/contract');
 
@@ -55,6 +56,32 @@ router.post('/api/reviewers', function(req, res) {
 				});
 			}
 		}
+	});
+});
+
+router.post('/api/reviewers/remove', function(req, res) {
+	let user = req.user;
+	let body = req.body;
+	const reviewerId = req.body.reviewerId;
+	const projectId = req.body.projectId;
+
+	Project.findById(projectId, function(err, foundProject) {
+		if (err) {
+			console.log(err);
+			return res.json(err);
+		}
+
+		const index = foundProject.reviewers.indexOf(reviewerId);
+		foundProject.reviewers.splice(index, 1);
+		foundProject.save(function(err, data) {
+			if (err) {
+				console.log(err);
+				return res.json(err);
+			} else {
+				console.log('success');
+				return res.json(data);
+			}
+		});
 	});
 });
 

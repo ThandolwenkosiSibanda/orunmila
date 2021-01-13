@@ -89,6 +89,7 @@ const reviewRoutes = require('./routes/reviews');
 const voteRoutes = require('./routes/votes');
 const userRoutes = require('./routes/users');
 const reviewersRoutes = require('./routes/reviewers');
+const articleRoutes = require('./routes/articles');
 const authRoutesGoogle = require('./routes/auth-routes-google');
 
 /**
@@ -293,6 +294,7 @@ app.use(reviewRoutes);
 app.use(reviewersRoutes);
 app.use(voteRoutes);
 app.use(userRoutes);
+app.use(articleRoutes);
 app.use(authRoutesGoogle);
 
 /** 

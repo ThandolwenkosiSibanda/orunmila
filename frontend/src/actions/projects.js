@@ -22,12 +22,19 @@ export const addProject = (formValues, csv) => async (dispatch, getState) => {
 
 	data.append('csv', csv);
 	data.append('title', formValues.title);
+	data.append('threshold', parseInt(formValues.threshold));
 
 	const response = await axios.post('/api/projects', data, config);
 
 	console.log('Reponse', response.data);
 	dispatch({ type: 'ADD_MY_PROJECT', payload: response.data });
 
+	history.push('/myprojects/?status=active');
+};
+
+export const deleteProject = (projectId) => async (dispatch) => {
+	await axios.delete(`/api/projects/${projectId}`);
+	dispatch({ type: 'DELETE_PROJECT', payload: projectId });
 	history.push('/myprojects/?status=active');
 };
 

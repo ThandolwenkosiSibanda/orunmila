@@ -88,9 +88,7 @@ const MyProjectsList = (props) => {
 			) : (
 				props.projects.map((project) => (
 					<React.Fragment>
-					
-							<MyProjectListItem key={project._id} project={project} status={props.status} />
-					
+						<MyProjectListItem key={project._id} project={project} status={props.status} />
 					</React.Fragment>
 				))
 			)}

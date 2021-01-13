@@ -113,6 +113,8 @@ router.post(
 	]),
 	(req, res) => {
 		let projectDetails = req.body;
+
+		console.log('project Details', projectDetails);
 		let user = req.user;
 		projectDetails.user = user._id;
 		projectDetails.status = 'active';
@@ -127,7 +129,8 @@ router.post(
 			dbo.collection('projects').insertOne(projectDetails, (err, result) => {
 				if (err) throw err;
 
-				importCsvData2MongoDB(absolutePath, result.insertedId);
+				importCsvData2MongoDB(absolutePath, result.insertedId, result.ops[0].threshold);
+
 				db.close();
 
 				// return result.ops[0];
@@ -138,10 +141,11 @@ router.post(
 	}
 );
 
-function importCsvData2MongoDB(filePath, projectId) {
+function importCsvData2MongoDB(filePath, projectId, threshold) {
 	csv().fromFile(filePath).then((jsonObj) => {
 		let newJsonObj = jsonObj.map(function(object) {
 			object.project = projectId;
+			object.threshold = threshold;
 			object.status = 'active';
 			return object;
 		});
@@ -227,10 +231,28 @@ router.get('/api/projects/:id', function(req, res) {
 			if (err) {
 				console.log(err);
 			} else {
-				console.log('articles count', articles.length);
-				return res.json(articles);
+				let filteredArticles =
+					articles &&
+					articles.filter((article) => {
+						return article.status === 'active';
+					});
+
+				return res.json(filteredArticles);
 			}
 		});
+});
+
+router.delete('/api/projects/:projectId', function(req, res) {
+	const projectId = req.params.projectId;
+
+	Project.findByIdAndDelete(projectId, function(err, deletedProject) {
+		if (err) {
+			console.log('ERROR! Updating the Record Please Try Again');
+		} else {
+			console.log('deleted Project', deletedProject);
+			return res.json(deletedProject);
+		}
+	});
 });
 
 module.exports = router;

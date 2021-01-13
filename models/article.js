@@ -43,6 +43,11 @@ var ArticleSchema = new mongoose.Schema({
 		type     : String,
 		required : false
 	},
+
+	threshold         : {
+		type     : Number,
+		required : false
+	},
 	votes             : [
 		{
 			type : mongoose.Schema.Types.ObjectId,

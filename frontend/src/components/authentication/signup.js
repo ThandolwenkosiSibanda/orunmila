@@ -20,6 +20,22 @@ class Signup extends Component {
 		}
 	};
 
+	renderPasswordInput = ({ input, meta }) => {
+		const className = `form-control ${meta.error && meta.touched ? 'error' : ''}`;
+		return (
+			<div className="form-group">
+				<input
+					{...input}
+					className={className}
+					autoComplete="off"
+					placeholder={this.capitalize(input.name)}
+					type="password"
+				/>
+				{this.renderError(meta)}
+			</div>
+		);
+	};
+
 	renderInput = ({ input, meta }) => {
 		const className = `form-control ${meta.error && meta.touched ? 'error' : ''}`;
 		return (
@@ -48,7 +64,7 @@ class Signup extends Component {
 										<Field name="email" component={this.renderInput} />
 									</div>
 									<div className="form-group">
-										<Field name="password" component={this.renderInput} />
+										<Field name="password" component={this.renderPasswordInput} />
 									</div>
 									<div className="actions mb-4 align-left">
 										<button type="submit" className="btn btn-primary">

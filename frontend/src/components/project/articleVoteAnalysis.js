@@ -84,6 +84,12 @@ const ArticleVoteAnalysis = (props) => {
 							<strong>#Average Votes Score:</strong> {countVotes()}
 						</small>
 					</p>
+
+					<p>
+						<small>
+							<strong>#Status:</strong> {props.article.status}
+						</small>
+					</p>
 				</div>
 			</div>
 		</section>

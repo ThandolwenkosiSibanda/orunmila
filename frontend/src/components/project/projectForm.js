@@ -37,6 +37,17 @@ class ProjectForm extends Component {
 		);
 	};
 
+	renderPasswordInput = ({ input, meta }) => {
+		const className = `form-control ${meta.error && meta.touched ? 'error' : ''}`;
+		return (
+			<div className="form-group">
+				<label htmlFor="from">{this.capitalize(input.name)}</label>
+				<input {...input} className={className} autoComplete="off" />
+				{this.renderError(meta)}
+			</div>
+		);
+	};
+
 	renderTextArea = ({ input, meta }) => {
 		const className = `form-control ${meta.error && meta.touched ? 'error' : ''}`;
 		return (
@@ -56,9 +67,11 @@ class ProjectForm extends Component {
 				<label htmlFor="select">{this.capitalize(input.name)}</label>
 				<select className={className} {...input}>
 					<option>~Select Threshold~</option>
-					<option value="25">25%</option>
 					<option value="50">50%</option>
-					<option value="75">75%</option>
+					<option value="60">60%</option>
+					<option value="70">70%</option>
+					<option value="80">80%</option>
+					<option value="90">90%</option>
 					<option value="100">100%</option>
 				</select>
 
@@ -140,7 +153,7 @@ class ProjectForm extends Component {
 											</div>
 
 											<div className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-3">
-												<Field name="threshold" component={this.renderInput} />
+												<Field name="threshold" component={this.renderSelect} />
 											</div>
 
 											<div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">

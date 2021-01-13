@@ -31,6 +31,12 @@ export const addMyProject = (formValues, csv) => async (dispatch, getState) => {
 	history.push('/projects/?status=active');
 };
 
+export const deleteMyProject = (projectId) => async (dispatch) => {
+	await axios.delete(`/api/projects/${projectId}`);
+	dispatch({ type: 'DELETE_MY_PROJECT', payload: projectId });
+	history.push('/myprojects/?status=active');
+};
+
 // 	FETCH_PROJECTS
 export const fetchMyProjects = () => async (dispatch, getState) => {
 	const { userId } = getState().auth;
