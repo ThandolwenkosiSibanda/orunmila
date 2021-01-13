@@ -113,13 +113,17 @@ router.post(
 	]),
 	(req, res) => {
 		let projectDetails = req.body;
+		let user = req.user;
+
+		let reviewers = [ user._id ];
 
 		console.log('project Details', projectDetails);
-		let user = req.user;
+
 		projectDetails.user = user._id;
 		projectDetails.status = 'active';
 		projectDetails.csv = req.files.csv[0].filename;
 		projectDetails.createdAt = Date.now();
+		projectDetails.reviewers = reviewers;
 
 		let absolutePath = path.resolve('./uploads/' + req.files.csv[0].filename);
 
@@ -130,6 +134,16 @@ router.post(
 				if (err) throw err;
 
 				importCsvData2MongoDB(absolutePath, result.insertedId, result.ops[0].threshold);
+				User.findById(user, function(err, foundUser) {
+					if (err) {
+						console.log(err);
+					} else {
+						foundUser.projects.push(result.insertedId);
+						foundUser.save(function(err, data) {
+							console.log(data);
+						});
+					}
+				});
 
 				db.close();
 
@@ -170,6 +184,10 @@ router.get('/api/projects', function(req, res) {
 	let { status } = JSON.parse(req.query.status);
 
 	console.log('status', status);
+
+	// Project.find(user).populate('projects').sort({ $natural: -1 }).exec(function(err, user) {
+
+	// }
 
 	User.findById(user).populate('projects').sort({ $natural: -1 }).exec(function(err, user) {
 		if (err) {
