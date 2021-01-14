@@ -2,7 +2,8 @@
 // Required modules
 //========================================================================================================================================
 const express = require('express'),
-	router = express.Router();
+	nodemailer = require('nodemailer');
+router = express.Router();
 
 //========================================================================================================================================
 // Required models
@@ -18,6 +19,10 @@ const Project = require('../models/project'),
 const auth = require('../middleware/auth/auth'),
 	unauth = require('../middleware/auth/unauth');
 
+//===========================================
+// Config The Nodemailer
+//===========================================
+
 // ===========================================================================================================================================
 //  Store
 //  Save the Details of a new Transporter
@@ -25,10 +30,28 @@ const auth = require('../middleware/auth/auth'),
 
 router.post('/api/reviewers', function(req, res) {
 	const reviewer = req.body;
+	let useremail = req.user.email;
 	console.log('addReviewer', reviewer);
 
 	let projectId = req.body.projectId;
 	let email = req.body.email;
+
+	let transporter = nodemailer.createTransport({
+		host       : 'smtp.gmail.com',
+		port       : 587,
+		secure     : false,
+		requireTLS : true,
+		auth       : {
+			user : 'molowehou@gmail.com',
+			pass : 'thand0l2'
+		}
+	});
+	let mailOptions = {
+		from    : useremail,
+		to      : email,
+		subject : `Orunmila Project Id:  ${projectId} Invitation`,
+		text    : `Good day. You have been invited to review this project. https://kratos-dev.herokuapp.com/projects/${projectId} `
+	};
 
 	User.findOne({
 		$or : [ { email: email } ]
@@ -48,6 +71,13 @@ router.post('/api/reviewers', function(req, res) {
 								if (err) {
 									console.log(err);
 								} else {
+									transporter.sendMail(mailOptions, function(error, info) {
+										if (error) {
+											console.log(error);
+										} else {
+											console.log('Email sentt: ' + info.response);
+										}
+									});
 									return res.json(data);
 								}
 							});

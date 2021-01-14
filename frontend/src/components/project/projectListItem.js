@@ -22,9 +22,13 @@ const ProjectListItem = (props) => {
 		[ props.status ]
 	);
 
+	const countObjectKeys = (obj) => {
+		return Object.keys(obj).length;
+	};
+
 	return (
 		<React.Fragment>
-			{props.project ? (
+			{countObjectKeys(props.project) > 4 ? (
 				<div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 					<section className="task-list">
 						<Link to={`/projects/${props.project._id}`}>
@@ -39,7 +43,8 @@ const ProjectListItem = (props) => {
 									<div className="task-name"> {props.project.title}</div>
 									<p>
 										<small>
-											<strong>#Created:</strong> {moment(props.project.createdAt).fromNow()}
+											<strong>#Created:</strong>{' '}
+											{moment(props.project.createdAt).format('DD/MM/YYYY')}
 										</small>
 									</p>
 								</div>

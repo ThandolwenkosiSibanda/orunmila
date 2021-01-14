@@ -29,7 +29,7 @@ export const addProject = (formValues, csv) => async (dispatch, getState) => {
 	console.log('Reponse', response.data);
 	dispatch({ type: 'ADD_MY_PROJECT', payload: response.data });
 
-	history.push('/myprojects/?status=active');
+	history.push(`/myprojects/?status=active`);
 };
 
 export const deleteProject = (projectId) => async (dispatch) => {

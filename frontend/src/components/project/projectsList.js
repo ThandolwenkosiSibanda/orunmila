@@ -77,24 +77,32 @@ const ProjectsList = (props) => {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	};
 
-	return (
-		<React.Fragment>
-			{props.projects[0] === 'Error' ? (
-				<div>Error: Please check your network connection and refresh the page</div>
-			) : props.projects[0] === true ? (
-				<React.Fragment>
-					<LoadListSpinner />
-				</React.Fragment>
-			) : (
-				props.projects.map((project) => (
-					<ProjectListItem key={project._id} project={project} status={props.status} />
-				))
-			)}
-		</React.Fragment>
-	);
+	const renderComponentDetails = () => {
+		if (props.projects.length < 1) return <div>You are currently not assigned to any {props.status} projects</div>;
+		return (
+			<React.Fragment>
+				{props.projects[0] === 'Error' ? (
+					<React.Fragment>
+						<LoadListSpinner />
+					</React.Fragment>
+				) : props.projects[0] === true ? (
+					<React.Fragment>
+						<LoadListSpinner />
+					</React.Fragment>
+				) : (
+					props.projects.map((project) => (
+						<ProjectListItem key={project._id} project={project} status={props.status} />
+					))
+				)}
+			</React.Fragment>
+		);
+	};
+
+	return renderComponentDetails();
 };
 
 const mapStateToProps = (state, ownProps) => {
+	console.log('projects', _.toArray(state.projects));
 	return {
 		projects   : _.toArray(state.projects),
 		isSignedIn : state.auth.isSignedIn

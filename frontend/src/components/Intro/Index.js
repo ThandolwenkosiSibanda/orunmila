@@ -6,7 +6,7 @@ import './index.css';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
-import jobpost from './jobpost.svg';
+import o from './o.png';
 import trucker from './trucker.jpg';
 import { makeStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
@@ -74,23 +74,11 @@ const IntroPage = (props) => {
 		<React.Fragment>
 			<FlashMessage />
 			<div className="slider-container">
-				<h3 className="heading">Kratos</h3>
-			</div>
-			<div className="scope pb-5">
-				<div className="container">
-					<div className="row">
-						<div className="col-xl-3 col-lg-3 col-md-3 col-sm-3 ">
-							<div className="" />
-						</div>
-						<div className="col-xl-3 col-lg-3 col-md-3 col-sm-3 types">
-							<div className="">
-								<p className="underline" />
+				<h3 className="heading">Orunmila</h3>
 
-								<p />
-							</div>
-						</div>
-					</div>
-				</div>
+				<p className="tagline">
+					Get proven results <br />from the comfort of your home.
+				</p>
 			</div>
 		</React.Fragment>
 	);

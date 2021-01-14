@@ -114,6 +114,7 @@ router.post(
 	(req, res) => {
 		let projectDetails = req.body;
 		let user = req.user;
+		let data = {};
 
 		let reviewers = [ user._id ];
 
@@ -122,36 +123,51 @@ router.post(
 		projectDetails.user = user._id;
 		projectDetails.status = 'active';
 		projectDetails.csv = req.files.csv[0].filename;
-		projectDetails.createdAt = Date.now();
+		// projectDetails.createdAt = Date.now();
 		projectDetails.reviewers = reviewers;
 
 		let absolutePath = path.resolve('./uploads/' + req.files.csv[0].filename);
 
-		MongoClient.connect(CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
-			if (err) throw err;
-			let dbo = db.db('trucker-zim');
-			dbo.collection('projects').insertOne(projectDetails, (err, result) => {
-				if (err) throw err;
+		// MongoClient.connect(CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
+		// 	if (err) throw err;
+		// 	let dbo = db.db('trucker-zim');
+		// 	dbo.collection('projects').insertOne(projectDetails, (err, result) => {
+		// 		if (err) throw err;
 
-				importCsvData2MongoDB(absolutePath, result.insertedId, result.ops[0].threshold);
-				User.findById(user, function(err, foundUser) {
-					if (err) {
-						console.log(err);
-					} else {
-						foundUser.projects.push(result.insertedId);
-						foundUser.save(function(err, data) {
-							console.log(data);
-						});
-					}
-				});
+		// 		importCsvData2MongoDB(absolutePath, result.insertedId, result.ops[0].threshold);
 
-				db.close();
+		// 		User.findById(user, function(err, foundUser) {
+		// 			if (err) {
+		// 				console.log(err);
+		// 			} else {
+		// 				foundUser.projects.push(result.insertedId);
+		// 				foundUser.save(function(err, data) {});
+		// 			}
+		// 		});
 
-				// return result.ops[0];
+		// 		db.close();
+		// 	});
+		// });
+
+		// return res.json(projectDetails);
+
+		Project.create(projectDetails, function(err, newProject) {
+			if (err) {
+				console.log(error);
+			}
+
+			importCsvData2MongoDB(absolutePath, newProject._id, newProject.threshold);
+			User.findById(user, function(err, foundUser) {
+				if (err) {
+					console.log(err);
+				} else {
+					foundUser.projects.push(newProject);
+					foundUser.save(function(err, data) {});
+				}
 			});
-		});
 
-		return res.json(projectDetails);
+			return res.json(newProject);
+		});
 	}
 );
 

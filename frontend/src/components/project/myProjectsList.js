@@ -77,23 +77,30 @@ const MyProjectsList = (props) => {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	};
 
-	return (
-		<React.Fragment>
-			{props.projects[0] === 'Error' ? (
-				<div>Error: Please check your network connection and refresh the page</div>
-			) : props.projects[0] === true ? (
-				<React.Fragment>
-					<LoadListSpinner />
-				</React.Fragment>
-			) : (
-				props.projects.map((project) => (
+	const renderComponentDetails = () => {
+		if (props.projects.length < 1) return <div>You do not currently have any {props.status} projects</div>;
+		return (
+			<React.Fragment>
+				{props.projects[0] === 'Error' ? (
 					<React.Fragment>
-						<MyProjectListItem key={project._id} project={project} status={props.status} />
+						<LoadListSpinner />
 					</React.Fragment>
-				))
-			)}
-		</React.Fragment>
-	);
+				) : props.projects[0] === true ? (
+					<React.Fragment>
+						<LoadListSpinner />
+					</React.Fragment>
+				) : (
+					props.projects.map((project) => (
+						<React.Fragment>
+							<MyProjectListItem key={project._id} project={project} status={props.status} />
+						</React.Fragment>
+					))
+				)}
+			</React.Fragment>
+		);
+	};
+
+	return renderComponentDetails();
 };
 
 const mapStateToProps = (state, ownProps) => {

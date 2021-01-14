@@ -86,7 +86,7 @@ const MyProjectView = (props) => {
 			<div className="content-wrapper">
 				<div className="row gutters">
 					{props.articles[0] === 'Error' ? (
-						<div>Error: Please check your network connection and refresh the page</div>
+						<LoadListSpinner />
 					) : props.articles[0] === true ? (
 						<React.Fragment>
 							<LoadListSpinner />

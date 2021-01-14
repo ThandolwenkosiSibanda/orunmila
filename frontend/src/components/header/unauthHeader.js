@@ -20,9 +20,9 @@ class UnAuthHeader extends React.Component {
 								<img src="" alt="" />
 							</a>
 						</div>
-
-						<NewUserNav />
 					</header>
+
+					<NewUserNav />
 
 					<AppRouter />
 				</Router>

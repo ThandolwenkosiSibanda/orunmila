@@ -72,41 +72,45 @@ const ProjectView = (props) => {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	};
 
+	const renderComponentDetails = () => {
+		if (props.articles.length < 1) return <div>There are no articles for this project</div>;
+		return props.articles[0] === 'Error' ? (
+			<LoadListSpinner />
+		) : props.articles[0] === true ? (
+			<React.Fragment>
+				<LoadListSpinner />
+			</React.Fragment>
+		) : (
+			props.articles.map((article) => (
+				<React.Fragment>
+					<ArticleListItem article={article} />
+					<div className="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12">
+						<ArticleVote
+							articleId={article._id}
+							article={article}
+							projectId={props.articles.length > 1 ? props.articles[0].project._id : ''}
+							handleSubmit={() => handleSubmit}
+						/>
+					</div>
+					<hr />
+				</React.Fragment>
+			))
+		);
+	};
+
 	return (
 		<React.Fragment>
 			<div className="page-header">
 				<ol className="breadcrumb">
 					<li className="breadcrumb-item active">
-						Project Name: {props.articles.length > 1 ? props.articles[0].project.title : ''}
+						Project Name:{' '}
+						{props.articles.length >= 1 && props.articles[0].project && props.articles[0].project.title}
 					</li>
 				</ol>
 			</div>
 
 			<div className="content-wrapper">
-				<div className="row gutters">
-					{props.articles[0] === 'Error' ? (
-						<div>Error: Please check your network connection and refresh the page</div>
-					) : props.articles[0] === true ? (
-						<React.Fragment>
-							<LoadListSpinner />
-						</React.Fragment>
-					) : (
-						props.articles.map((article) => (
-							<React.Fragment>
-								<ArticleListItem article={article} />
-								<div className="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12">
-									<ArticleVote
-										articleId={article._id}
-										article={article}
-										projectId={props.articles.length > 1 ? props.articles[0].project._id : ''}
-										handleSubmit={() => handleSubmit}
-									/>
-								</div>
-								<hr />
-							</React.Fragment>
-						))
-					)}
-				</div>
+				<div className="row gutters">{renderComponentDetails()}</div>
 			</div>
 
 			<Modal show={IsOpen} onHide={hideModal} size="lg">

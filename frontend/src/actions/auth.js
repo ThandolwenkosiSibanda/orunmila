@@ -11,7 +11,8 @@ import { LOGIN, LOGOUT } from './types.js';
 export const login = (formValues) => async (dispatch, getState) => {
 	console.log('login', formValues);
 	const response = await axios.post('/api/login', { ...formValues });
-	dispatch({ type: LOGIN, payload: formValues });
+
+	dispatch({ type: LOGIN, payload: response.data });
 };
 
 export const logout = () => async (dispatch) => {
@@ -25,6 +26,8 @@ export const logout = () => async (dispatch) => {
 export const signup = (formValues) => async (dispatch, getState) => {
 	const response = await axios.post('/api/users', { ...formValues });
 	dispatch({ type: LOGIN, payload: response.data });
+
+	history.push('/');
 };
 
 //SIGN_UP
@@ -32,6 +35,5 @@ export const getCurrentUser = () => async (dispatch, getState) => {
 	console.log('getCurrent User');
 	const response = await axios.get('/api/currentuser');
 
-	console.log('Current User', response.data);
 	dispatch({ type: LOGIN, payload: response.data });
 };

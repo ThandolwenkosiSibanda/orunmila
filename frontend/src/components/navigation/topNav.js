@@ -18,18 +18,15 @@ const TopNav = (props) => {
 		<ul className="header-actions ">
 			<li className="dropdown">
 				<a href="#" id="userSettings" className="user-settings" data-toggle="dropdown" aria-haspopup="true">
-					<span className="user-name">{props.userName ? props.userName : 'User'}</span>
 					<span className="avatar">
-						{props.userName}
-						<span className="status busy" />
+						{props.userName ? props.userName.charAt(0) : 'User'} {props.userSurname.charAt(0)}
 					</span>
 				</a>
 				<div className="dropdown-menu dropdown-menu-right" aria-labelledby="userSettings">
 					<div className="header-profile-actions">
 						<div className="header-user-profile">
-							<div className="header-user" />
-							<h5>{props.userName}</h5>
-							<h5>{props.userSurname}</h5>
+							<span>{props.userName}</span>
+							<span>{props.userSurname}</span>
 						</div>
 
 						<a className="logoutBtn" onClick={signout}>

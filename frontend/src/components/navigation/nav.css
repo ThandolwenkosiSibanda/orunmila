@@ -11,5 +11,9 @@
 }
 
 #logo {
-	width: 80px;
+	height: 50px;
+}
+
+.navbar {
+	background-color: #fff !important;
 }

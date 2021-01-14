@@ -11,8 +11,8 @@ export default class nav extends Component {
 	render() {
 		return (
 			<React.Fragment>
-				<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-					<Navbar.Brand href="#home">
+				<Navbar collapseOnSelect expand="lg" bg="" variant="">
+					<Navbar.Brand href="/">
 						<img id="logo" src={Logo} />
 					</Navbar.Brand>
 					<Navbar.Toggle aria-controls="responsive-navbar-nav" />

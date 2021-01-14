@@ -25,7 +25,7 @@ body {
 	padding: 0;
 	font: 400 .8rem 'Open Sans', sans-serif;
 	color: #2e323c;
-	background: #262b31;
+	background: #fff;
 	min-height: 100%;
 	position: relative;
 }
@@ -38,7 +38,7 @@ body.fixed-layout {
 	overflow: hidden;
 }
 body.boxed-layout {
-	background: #262b31;
+	background: #fff;
 }
 body.boxed-layout .header {
 	margin: 0 auto 1rem auto;
@@ -1268,7 +1268,7 @@ ul.header-tasks:last-child {
 
 .login-screen {
 	position: relative;
-	background: #ffffff;
+	background: #ac7f7f;
 	margin: 60px auto;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;

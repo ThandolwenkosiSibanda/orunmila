@@ -33,6 +33,7 @@ const MyProjectsReducer = (state = {}, action) => {
 		case 'FETCH_MY_PROJECTS_SUCCESS':
 			let copy = Object.assign({}, state);
 			delete copy.loading;
+			delete copy.status;
 			return { ..._.mapKeys(action.payload, '_id') };
 		case 'FETCH_MY_PROJECTS_FAILURE':
 			return { ...state, loading: 'Error' };

@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 import { reduxForm, Field } from 'redux-form';
 import { login, logout, signup } from '../../actions/auth';
+import './login.css';
 
 class Login extends Component {
 	onSubmit = (formValues) => {
