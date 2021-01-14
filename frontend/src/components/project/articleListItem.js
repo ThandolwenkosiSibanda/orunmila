@@ -50,11 +50,6 @@ const ArticleListItem = (props) => {
 							</p>
 
 							<div className="task-name">{props.article.Title}</div>
-							<p>
-								<small>
-									<strong>#Key Words:</strong> {props.article['Author Keywords']}
-								</small>
-							</p>
 
 							<Accordion
 								expanded={expanded === 'panel' + props.article._id}
@@ -68,16 +63,16 @@ const ArticleListItem = (props) => {
 									<button className="btn btn-primary">
 										<strong>
 											{expanded && expanded === 'panel' + props.article._id ? (
-												'Hide Abstract'
+												'Hide Abstract & Key Words'
 											) : (
-												'Show Abstract'
+												'Show Abstract & Key Words'
 											)}
 										</strong>
 									</button>
 								</AccordionSummary>
-								<p className="ref">
+								<p>
 									<small>
-										<strong>Ref ID: </strong> {props.article._id}
+										<strong>#Key Words:</strong> {props.article['Author Keywords']}
 									</small>
 								</p>
 								<AccordionDetails>
