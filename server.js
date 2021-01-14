@@ -306,7 +306,7 @@ app.use(authRoutesGoogle);
 // io.on('connection', SocketManager);
 
 if (process.env.NODE_ENV === 'production') {
-	console.log('Loaded');
+	console.log('Loadeded');
 	app.use(express.static(path.join(__dirname, 'frontend/build')));
 
 	app.get('*', (req, res) => {
