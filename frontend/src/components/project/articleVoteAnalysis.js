@@ -69,6 +69,29 @@ const ArticleVoteAnalysis = (props) => {
 		}
 	};
 
+	const voteAverage = () => {
+		if (props.article.votes && props.article.votes.length > 0) {
+			let votesCount = props.article.votes.map((vote) => {
+				return vote;
+			});
+
+			let voteScore = props.article.votes.map((vote) => vote.score).reduce((prev, next) => prev + next);
+
+			let threshold = props.article.threshold;
+
+			console.log('check ', voteScore * 20 * votesCount.length);
+
+			let averageScore = voteScore * 20 / votesCount.length;
+
+			console.log('average score', averageScore);
+			console.log('threshold', threshold);
+			console.log('votesCount', votesCount.length);
+			console.log('voteScore', voteScore);
+
+			return averageScore;
+		}
+	};
+
 	return (
 		<section className="task-list">
 			<div className="task-block card">
@@ -81,7 +104,7 @@ const ArticleVoteAnalysis = (props) => {
 
 					<p>
 						<small>
-							<strong>#Average Votes Score:</strong> {countVotes()}
+							<strong>#Average Votes Score:</strong> {voteAverage()}
 						</small>
 					</p>
 
