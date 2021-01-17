@@ -39,7 +39,7 @@ const ArticleListItem = (props) => {
 
 	return (
 		<React.Fragment>
-			<div className="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12">
+			<div className="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
 				<section className="task-list">
 					<div className="task-block card">
 						<div className="task-details">

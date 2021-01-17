@@ -33,7 +33,8 @@ const ArticlesReducer = (state = {}, action) => {
 		case 'FETCH_ARTICLES_SUCCESS':
 			let copy = Object.assign({}, state);
 			delete copy.loading;
-			return { ...copy, ..._.mapKeys(action.payload, '_id') };
+			delete copy.status;
+			return { ..._.mapKeys(action.payload, '_id') };
 		case 'FETCH_ARTICLES_FAILURE':
 			return { ...state, loading: 'Error' };
 		default:

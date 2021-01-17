@@ -45,16 +45,13 @@ export const fetchProjects = () => async (dispatch, getState) => {
 	dispatch({ type: 'FETCH_PROJECTS', payload: response.data });
 };
 
-// FETCH_PROJECTS
 export const fetchProject = (projectId) => async (dispatch) => {
+	console.log('fetch project', projectId);
 	const response = await axios.get(`/api/projects/${projectId}`);
-	dispatch({ type: 'FETCH_ARTICLES', payload: response.data });
+	console.log('fetchedLoad', response.data);
+	dispatch({ type: 'FETCH_PROJECT', payload: response.data });
 };
 
 export const getProjects = (status) => async (dispatch, getState) => {
 	dispatch({ type: 'FETCH_PROJECTS_REQUEST', payload: { loading: true, status: status } });
-};
-
-export const getProject = (projectId) => async (dispatch, getState) => {
-	dispatch({ type: 'FETCH_ARTICLES_REQUEST', payload: { loading: true, projectId: projectId } });
 };

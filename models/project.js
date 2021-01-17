@@ -31,6 +31,19 @@ var ProjectSchema = new mongoose.Schema({
 			ref  : 'User'
 		}
 	],
+	votes     : [
+		{
+			type : mongoose.Schema.Types.ObjectId,
+			ref  : 'Vote'
+		}
+	],
+
+	articles  : [
+		{
+			type : mongoose.Schema.Types.ObjectId,
+			ref  : 'Article'
+		}
+	],
 
 	csv       : {
 		type     : String,

@@ -37,6 +37,12 @@ export const deleteMyProject = (projectId) => async (dispatch) => {
 	history.push('/myprojects/?status=active');
 };
 
+//UPDATE_LOAD
+export const updateMyProject = (projectId, formValues) => async (dispatch) => {
+	const response = await axios.put(`/api/projects/${projectId}`, formValues);
+	dispatch({ type: 'UPDATE_MY_PROJECT', payload: response.data });
+};
+
 // 	FETCH_PROJECTS
 export const fetchMyProjects = () => async (dispatch, getState) => {
 	const { userId } = getState().auth;
@@ -44,16 +50,15 @@ export const fetchMyProjects = () => async (dispatch, getState) => {
 	dispatch({ type: 'FETCH_MY_PROJECTS', payload: response.data });
 };
 
-// FETCH_PROJECTS
 export const fetchMyProject = (projectId) => async (dispatch) => {
 	const response = await axios.get(`/api/projects/${projectId}`);
-	dispatch({ type: 'FETCH_MY_ARTICLES', payload: response.data });
+	dispatch({ type: 'FETCH_MY_PROJECT', payload: response.data });
 };
 
 export const getMyProjects = (status) => async (dispatch, getState) => {
 	dispatch({ type: 'FETCH_MY_PROJECTS_REQUEST', payload: { loading: true, status: status } });
 };
 
-export const getMyProject = (projectId) => async (dispatch, getState) => {
-	dispatch({ type: 'FETCH_MY_ARTICLES_REQUEST', payload: { loading: true, projectId: projectId } });
-};
+// export const getMyProject = (projectId) => async (dispatch, getState) => {
+// 	dispatch({ type: 'FETCH_MY_ARTICLES_REQUEST', payload: { loading: true, projectId: projectId } });
+// };

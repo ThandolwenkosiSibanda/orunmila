@@ -8,6 +8,7 @@ const express = require('express'),
 // Required models
 //========================================================================================================================================
 const Vote = require('../models/vote'),
+	Project = require('../models/project'),
 	User = require('../models/user'),
 	Article = require('../models/article');
 
@@ -45,7 +46,21 @@ router.post('/api/votes', function(req, res) {
 				if (err) {
 					console.log(err);
 				} else {
-					return res.json(data);
+					Project.findById(foundArticle.project, function(err, foundProject) {
+						if (err) {
+							console.log(err);
+						} else {
+							foundProject.votes.push(newVote);
+
+							foundProject.save(function(err, vote) {
+								if (err) {
+									console.log(err);
+								} else {
+									return res.json(data);
+								}
+							});
+						}
+					});
 				}
 			});
 		});

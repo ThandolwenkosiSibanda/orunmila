@@ -16,7 +16,7 @@ import LoadListSpinner from '../spinners/loadListSpinner';
 import { appendScript } from '../../utils/appendScript';
 import { removeScript } from '../../utils/removeScript';
 
-import { getProject } from '../../actions/projects';
+import { fetchProject } from '../../actions/projects';
 import { addReview } from '../../actions/reviews';
 import ProjectForm from './projectForm';
 import ArticleVote from './articleVote';
@@ -33,12 +33,25 @@ const ProjectView = (props) => {
 	useEffect(() => {
 		let isSubscribed = true;
 		try {
-			props.getProject(props.projectId.id);
+			props.fetchProject(props.projectId);
 		} catch (err) {
 			setError(err);
 		}
 		return () => (isSubscribed = false);
 	}, []);
+
+	useEffect(
+		() => {
+			let isSubscribed = true;
+			try {
+				props.fetchProject(props.projectId);
+			} catch (err) {
+				setError(err);
+			}
+			return () => (isSubscribed = false);
+		},
+		[ props.projectId ]
+	);
 
 	const showModal = () => {
 		setIsOpen(true);
@@ -72,45 +85,32 @@ const ProjectView = (props) => {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	};
 
-	const renderComponentDetails = () => {
-		if (props.articles.length < 1) return <div>There are no articles for this project</div>;
-		return props.articles[0] === 'Error' ? (
-			<LoadListSpinner />
-		) : props.articles[0] === true ? (
-			<React.Fragment>
-				<LoadListSpinner />
-			</React.Fragment>
-		) : (
-			props.articles.map((article) => (
-				<React.Fragment>
-					<ArticleListItem article={article} />
-					<div className="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12">
-						<ArticleVote
-							articleId={article._id}
-							article={article}
-							projectId={props.articles.length > 1 ? props.articles[0].project._id : ''}
-							handleSubmit={() => handleSubmit}
-						/>
-					</div>
-					<hr />
-				</React.Fragment>
-			))
-		);
-	};
-
 	return (
 		<React.Fragment>
 			<div className="page-header">
 				<ol className="breadcrumb">
-					<li className="breadcrumb-item active">
-						Project Name:{' '}
-						{props.articles.length >= 1 && props.articles[0].project && props.articles[0].project.title}
-					</li>
+					<li className="breadcrumb-item active">My Project Name: {props.project && props.project.title}</li>
 				</ol>
 			</div>
 
 			<div className="content-wrapper">
-				<div className="row gutters">{renderComponentDetails()}</div>
+				<div className="row gutters">
+					{props.project &&
+						props.project.articles.map((article) => (
+							<React.Fragment>
+								<ArticleListItem article={article} key={article._id} />
+								<div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+									<ArticleVote
+										articleId={article._id}
+										article={article}
+										projectId={props.project._id}
+										handleSubmit={() => handleSubmit}
+									/>
+								</div>
+								<hr />
+							</React.Fragment>
+						))}
+				</div>
 			</div>
 
 			<Modal show={IsOpen} onHide={hideModal} size="lg">
@@ -130,9 +130,8 @@ const ProjectView = (props) => {
 const mapStateToProps = (state, OwnProps) => {
 	return {
 		project   : state.projects[OwnProps.match.params.id],
-		projectId : OwnProps.match.params,
-		articles  : _.toArray(state.articles)
+		projectId : OwnProps.match.params.id
 	};
 };
 
-export default connect(mapStateToProps, { getProject, addReview })(ProjectView);
+export default connect(mapStateToProps, { fetchProject, addReview })(ProjectView);

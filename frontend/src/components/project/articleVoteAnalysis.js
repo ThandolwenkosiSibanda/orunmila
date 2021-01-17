@@ -60,13 +60,12 @@ const ArticleVoteAnalysis = (props) => {
 	};
 
 	const countVotes = () => {
-		if (props.article.votes && props.article.votes.length > 0) {
-			let reviewers = props.article.votes.map((vote) => {
-				return vote.reviewer._id;
-			});
-
-			return reviewers.length;
-		}
+		// if (props.article.votes && props.article.votes.length > 0) {
+		// 	let reviewers = props.article.votes.map((vote) => {
+		// 		return vote.reviewer._id;
+		// 	});
+		// 	return reviewers.length;
+		// }
 	};
 
 	const voteAverage = () => {
@@ -79,14 +78,14 @@ const ArticleVoteAnalysis = (props) => {
 
 			let threshold = props.article.threshold;
 
-			console.log('check ', voteScore * 20 * votesCount.length);
+			// console.log('check ', voteScore * 20 * votesCount.length);
 
 			let averageScore = voteScore * 20 / votesCount.length;
 
-			console.log('average score', averageScore);
-			console.log('threshold', threshold);
-			console.log('votesCount', votesCount.length);
-			console.log('voteScore', voteScore);
+			// console.log('average score', averageScore);
+			// console.log('threshold', threshold);
+			// console.log('votesCount', votesCount.length);
+			// console.log('voteScore', voteScore);
 
 			return averageScore;
 		}

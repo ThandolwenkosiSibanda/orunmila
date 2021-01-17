@@ -90,6 +90,7 @@ const voteRoutes = require('./routes/votes');
 const userRoutes = require('./routes/users');
 const reviewersRoutes = require('./routes/reviewers');
 const articleRoutes = require('./routes/articles');
+const reportRoutes = require('./routes/reports');
 const authRoutesGoogle = require('./routes/auth-routes-google');
 
 /**
@@ -266,7 +267,6 @@ app.use(function(req, res, next) {
 	if (token) {
 		var currentUser = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
-		console.log('current ', currentUser);
 		res.locals.currentUser = currentUser;
 	} else {
 		res.locals.currentUser = '';
@@ -296,6 +296,7 @@ app.use(voteRoutes);
 app.use(userRoutes);
 app.use(articleRoutes);
 app.use(authRoutesGoogle);
+app.use(reportRoutes);
 
 /** 
  * Socket IO Functions

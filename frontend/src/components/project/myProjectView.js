@@ -16,7 +16,7 @@ import LoadListSpinner from '../spinners/loadListSpinner';
 import { appendScript } from '../../utils/appendScript';
 import { removeScript } from '../../utils/removeScript';
 
-import { getProject } from '../../actions/projects';
+import { fetchMyProject } from '../../actions/myprojects';
 import { addReview } from '../../actions/reviews';
 import ProjectForm from './projectForm';
 import ArticleVote from './articleVote';
@@ -33,13 +33,27 @@ const MyProjectView = (props) => {
 
 	useEffect(() => {
 		let isSubscribed = true;
+
 		try {
-			props.getProject(props.projectId.id);
+			props.fetchMyProject(props.projectId);
 		} catch (err) {
 			setError(err);
 		}
 		return () => (isSubscribed = false);
 	}, []);
+
+	useEffect(
+		() => {
+			let isSubscribed = true;
+			try {
+				props.fetchMyProject(props.projectId);
+			} catch (err) {
+				setError(err);
+			}
+			return () => (isSubscribed = false);
+		},
+		[ props.projectId ]
+	);
 
 	const showModal = () => {
 		setIsOpen(true);
@@ -77,36 +91,27 @@ const MyProjectView = (props) => {
 		<React.Fragment>
 			<div className="page-header">
 				<ol className="breadcrumb">
-					<li className="breadcrumb-item active">
-						My Project Name: {props.articles.length > 1 ? props.articles[0].project.title : ''}
-					</li>
+					<li className="breadcrumb-item active">My Project Name: {props.project && props.project.title}</li>
 				</ol>
 			</div>
 
 			<div className="content-wrapper">
 				<div className="row gutters">
-					{props.articles[0] === 'Error' ? (
-						<LoadListSpinner />
-					) : props.articles[0] === true ? (
-						<React.Fragment>
-							<LoadListSpinner />
-						</React.Fragment>
-					) : (
-						props.articles.map((article) => (
+					{props.project &&
+						props.project.articles.map((article) => (
 							<React.Fragment>
-								<MyArticleListItem article={article} />
+								<MyArticleListItem article={article} key={article._id} />
 								<div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
 									<ArticleVoteAnalysis
 										articleId={article._id}
 										article={article}
-										projectId={props.articles.length > 1 ? props.articles[0].project._id : ''}
+										projectId={props.project._id}
 										handleSubmit={() => handleSubmit}
 									/>
 								</div>
 								<hr />
 							</React.Fragment>
-						))
-					)}
+						))}
 				</div>
 			</div>
 
@@ -127,9 +132,8 @@ const MyProjectView = (props) => {
 const mapStateToProps = (state, OwnProps) => {
 	return {
 		project   : state.myprojects[OwnProps.match.params.id],
-		projectId : OwnProps.match.params,
-		articles  : _.toArray(state.articles)
+		projectId : OwnProps.match.params.id
 	};
 };
 
-export default connect(mapStateToProps, { getProject, addReview })(MyProjectView);
+export default connect(mapStateToProps, { fetchMyProject })(MyProjectView);

@@ -74,7 +74,7 @@ const ReviewersDashboard = (props) => {
 							{props.project.reviewers &&
 								props.project.reviewers.map((reviewer) => {
 									return (
-										<div className="">
+										<div className="" key={reviewer._id}>
 											<span>{reviewer.name} </span>
 											<span>{reviewer.surname} </span> &nbsp;
 											<span className="delete">

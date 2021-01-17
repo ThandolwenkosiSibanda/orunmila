@@ -3,7 +3,7 @@ import axios from '../apis/backend';
 
 /** function that returns an axios call */
 const articleApi = async (projectId) => {
-	return await axios.get(`/api/projects/${projectId}`);
+	return await axios.get(`/api/articles/${projectId}`);
 };
 
 /**
@@ -13,6 +13,8 @@ const articleApi = async (projectId) => {
 function* fetchArticles(action) {
 	try {
 		let { data } = yield call(articleApi, action.payload.projectId);
+
+		console.log('articles saga', data.length);
 
 		console.log('FetchArticles', data);
 		yield put({ type: 'FETCH_ARTICLES_SUCCESS', payload: data });

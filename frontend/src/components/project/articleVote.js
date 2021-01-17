@@ -6,7 +6,7 @@ import { reduxForm, Field } from 'redux-form';
 
 import { addVote } from '../../actions/votes';
 
-import { deleteArticle } from '../../actions/articles';
+import { deleteArticle, updateArticle } from '../../actions/articles';
 
 // The purpose of the connect wrapper is to communicate with the provider in order to get the store
 
@@ -74,11 +74,11 @@ const ArticleVote = (props) => {
 	const checkIfVoted = () => {
 		if (props.article.votes && props.article.votes.length > 0) {
 			let reviewers = props.article.votes.map((vote) => {
-				return vote.reviewer._id;
+				return vote.reviewer;
 			});
+
 			let currentUser = [ props.currentUserId ];
 			let filtered = reviewers.filter((reviewer) => currentUser.includes(reviewer));
-
 			if (filtered.length > 0) {
 				setVoted(true);
 				return 'Voted';
@@ -114,8 +114,12 @@ const ArticleVote = (props) => {
 			console.log('votesCount', votesCount.length);
 			console.log('voteScore', voteScore);
 
-			if (votesCount.length > 2 && averageScore < threshold && props.article.status === 'active') {
-				props.deleteArticle(props.article._id);
+			if (votesCount.length >= 3 && averageScore < threshold && props.article.status === 'active') {
+				props.updateArticle(props.article._id, { status: 'failed' });
+			}
+
+			if (votesCount.length >= 3 && averageScore > threshold && props.article.status === 'active') {
+				props.updateArticle(props.article._id, { status: 'passed' });
 			}
 		}
 	};
@@ -128,7 +132,7 @@ const ArticleVote = (props) => {
 					<div className="task-block card">
 						<div className="task-details">
 							<div className="table-responsive mt-4">
-								<button className=" btn btn-primary mt-4 mb-4" disabled="disabled">
+								<button className=" btn btn-primary" disabled="disabled">
 									Vote Submitted
 								</button>
 							</div>
@@ -245,7 +249,7 @@ const ArticleVote = (props) => {
 								<p>{reason}</p>
 
 								<button
-									className=" btn btn-primary mt-4 mb-4"
+									className=" btn btn-primary "
 									disabled={score > 0 ? false : 'disabled'}
 									onClick={onSubmit}
 								>
@@ -300,4 +304,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, { addVote, deleteArticle })(formWrapped);
+export default connect(mapStateToProps, { addVote, deleteArticle, updateArticle })(formWrapped);

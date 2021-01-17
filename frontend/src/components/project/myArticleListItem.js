@@ -54,6 +54,8 @@ const MyArticleListItem = (props) => {
 							</p>
 							<div className="task-name">{props.article.Title}</div>
 
+							<div className="task-name">{props.article.project.title}</div>
+
 							<Accordion
 								expanded={expanded === 'panel' + props.article._id}
 								onChange={handleChange('panel' + props.article._id)}
