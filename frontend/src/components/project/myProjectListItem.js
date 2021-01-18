@@ -90,7 +90,7 @@ const MyProjectListItem = (props) => {
 		let articlesCount = props.project.articles ? props.project.articles.length : 0;
 		let requiredVotes = reviewersCount * articlesCount;
 
-		if (votesCount >= requiredVotes) {
+		if (votesCount >= requiredVotes && reviewersCount >= 3) {
 			return <MyProjectReports project={props.project} />;
 		}
 		return '';
@@ -102,7 +102,7 @@ const MyProjectListItem = (props) => {
 		let articlesCount = props.project.articles ? props.project.articles.length : 0;
 		let requiredVotes = reviewersCount * articlesCount;
 
-		if (votesCount >= requiredVotes) {
+		if (votesCount >= requiredVotes && reviewersCount < 3) {
 			return '';
 		}
 		return (
