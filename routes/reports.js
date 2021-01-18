@@ -63,7 +63,22 @@ router.post('/api/reports', (req, res) => {
 		quality          : '75' // only used for types png & jpeg
 	};
 
-	newPdf = pdf.create(pdfTemplate(reportData), config).toFile('./uploads/report.pdf', function(err, result) {
+	let AcceptedArticlesList = () => {
+		let acceptedArticles = reportData.articles.filter((article) => article.status === 'accepted').map((article) => {
+			return `
+			<hr>
+			<p><strong>Article Title:</strong></p>
+			<p>${article.Title}</p>
+			<p><strong>Abstract:</strong></p>
+			<p>${article.Abstract}</p>
+		   
+			`;
+		});
+
+		return acceptedArticles;
+	};
+
+	newPdf = pdf.create(pdfTemplate(reportData, AcceptedArticlesList), config).toFile('./uploads/report.pdf', function(err, result) {
 		if (err) {
 			console.log(err);
 			res.send(Promise.reject());
