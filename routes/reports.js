@@ -63,7 +63,7 @@ router.post('/api/reports', (req, res) => {
 		quality          : '75' // only used for types png & jpeg
 	};
 
-	let AcceptedArticlesList = () => {
+	let acceptedArticlesList = () => {
 		let acceptedArticles = reportData.articles.filter((article) => article.status === 'accepted').map((article) => {
 			return `
 			<hr>
@@ -78,15 +78,17 @@ router.post('/api/reports', (req, res) => {
 		return acceptedArticles;
 	};
 
-	newPdf = pdf.create(pdfTemplate(reportData, AcceptedArticlesList), config).toFile('./uploads/report.pdf', function(err, result) {
-		if (err) {
-			console.log(err);
-			res.send(Promise.reject());
-		}
-		console.log(result); // { filename: '/app/businesscard.pdf' }
+	newPdf = pdf
+		.create(pdfTemplate(reportData, acceptedArticlesList), config)
+		.toFile('./uploads/report.pdf', function(err, result) {
+			if (err) {
+				console.log(err);
+				res.send(Promise.reject());
+			}
+			console.log(result); // { filename: '/app/businesscard.pdf' }
 
-		res.send(Promise.resolve());
-	});
+			res.send(Promise.resolve());
+		});
 });
 
 // ===========================================================================================================================================
