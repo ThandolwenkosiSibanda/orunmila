@@ -4,20 +4,20 @@ let renderList = (project) => {
 	});
 };
 
-// let AcceptedArticlesList = (project) => {
-// 	let acceptedArticles = project.articles.filter((article) => article.status === 'accepted').map((article) => {
-// 		return `
-//         <hr>
-//         <p><strong>Article Title:</strong></p>
-//         <p>${article.Title}</p>
-//         <p><strong>Abstract:</strong></p>
-//         <p>${article.Abstract}</p>
+let AcceptedArticlesList = (project) => {
+	let acceptedArticles = project.articles.filter((article) => article.status === 'accepted').map((article) => {
+		return `
+        <hr>
+        <p><strong>Article Title:</strong></p>
+        <p>${article.Title}</p>
+        <p><strong>Abstract:</strong></p>
+        <p>${article.Abstract}</p>
+       
+        `;
+	});
 
-//         `;
-// 	});
-
-// 	return acceptedArticles;
-// };
+	return acceptedArticles;
+};
 
 let RejectedArticlesCount = (project) => {
 	let rejectedArticles = project.articles.filter((article) => article.status === 'rejected');
@@ -29,7 +29,7 @@ let AcceptedArticlesCount = (project) => {
 	return acceptedArticles.length;
 };
 
-module.exports = (project, acceptedArticlesList) => {
+module.exports = (project) => {
 	return `
     <!DOCTYPE html>
     <html>
@@ -75,7 +75,7 @@ module.exports = (project, acceptedArticlesList) => {
 
    <h5>Accepted Articles:</h5>
        
-        ${acceptedArticlesList()}
+        ${AcceptedArticlesList(project)}
         
     </body>
   </html>
