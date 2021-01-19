@@ -9,10 +9,7 @@ import configureStore from './store/configureStore';
 //Components
 import Index from './components/index';
 // Action Creators
-import { addLoad, getAllLoads, updateLoad, deleteLoad } from './actions/loads';
-import { setLoadsTextFilter, sortByAmount, sortByDate, setStartDate, setEndDate } from './actions/loadsFilters';
-// Selectors
-import getVisibleLoads from './selectors/loads';
+
 //Styles - CSS and SCSS
 import './styles/bootstrap.min.scss';
 import './styles/main.scss';

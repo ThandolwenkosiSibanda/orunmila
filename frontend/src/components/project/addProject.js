@@ -1,15 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ReviewForm from './reviewForm';
-import { addReview } from '../../actions/reviews';
 
 // The purpose of the connect wrapper is to communicate with the provider in order to get the store
 
 const AddProject = (props) => {
-	const onSubmit = (formValues) => {
-		props.addReview(formValues);
-	};
-
 	return (
 		<div>
 			<div className="page-header">
@@ -25,4 +20,4 @@ const AddProject = (props) => {
 	);
 };
 
-export default connect(null, { addReview })(AddProject);
+export default connect(null)(AddProject);

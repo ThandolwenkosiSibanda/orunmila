@@ -7,10 +7,9 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { fetchLoad } from '../../actions/loads';
-import { fetchCreditsTotal } from '../../actions/creditsTotal';
+
 import { Link } from 'react-router-dom';
-import LoadsReducer from '../../reducers/loadsReducer';
+
 import _ from 'lodash';
 
 const ArticleListItem = (props) => {
@@ -94,4 +93,4 @@ const mapStateToProps = (state) => {
 		currentUserId : state.auth.userId
 	};
 };
-export default connect(mapStateToProps, { fetchLoad, fetchCreditsTotal })(ArticleListItem);
+export default connect(mapStateToProps)(ArticleListItem);

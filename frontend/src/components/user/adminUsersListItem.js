@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import { fetchProposal } from '../../actions/proposals';
 import { updateOffer, fetchOffers } from '../../actions/offer';
 import { Link } from 'react-router-dom';
-import LoadsReducer from '../../reducers/loadsReducer';
+
 import EndContractModalForm from './endContractModalForm';
 import history from '../../history';
 

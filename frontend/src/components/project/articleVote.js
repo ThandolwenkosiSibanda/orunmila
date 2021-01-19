@@ -72,6 +72,7 @@ const ArticleVote = (props) => {
 		);
 	};
 	const checkIfVoted = () => {
+		console.log('article votes', props.article.votes);
 		if (props.article.votes && props.article.votes.length > 0) {
 			let reviewers = props.article.votes.map((vote) => {
 				return vote.reviewer;
@@ -81,9 +82,9 @@ const ArticleVote = (props) => {
 			let filtered = reviewers.filter((reviewer) => currentUser.includes(reviewer));
 			if (filtered.length > 0) {
 				setVoted(true);
-				return 'Voted';
+				return '';
 			} else {
-				return 'Yet To Vote';
+				return '';
 			}
 		}
 	};

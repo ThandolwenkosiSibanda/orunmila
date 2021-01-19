@@ -1,21 +1,13 @@
 import React, { Component, useState, useEffect } from 'react';
-import { fetchCreditsTotal } from '../../actions/creditsTotal';
-import { addSupportMessage } from '../../actions/supportMessages';
+
 import Modal from 'react-bootstrap/Modal';
 import './index.css';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { Link } from 'react-router-dom';
+
 import o from './o.png';
-import trucker from './trucker.jpg';
+
 import { makeStyles } from '@material-ui/core/styles';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ContactSupportModal from './contactSupportModal';
-import FlashMessage from '../flash/index';
 
 const IntroPage = (props) => {
 	const [ IsOpen, setIsOpen ] = useState(false);
@@ -72,7 +64,6 @@ const IntroPage = (props) => {
 
 	return (
 		<React.Fragment>
-			<FlashMessage />
 			<div className="slider-container">
 				<h3 className="heading">Orunmila</h3>
 
@@ -85,11 +76,9 @@ const IntroPage = (props) => {
 };
 
 const mapStateToProps = (state) => {
-	let creditsTotal = _.toArray(state.creditsTotal)[0] ? _.toArray(state.creditsTotal)[0].total : 0;
 	return {
-		isSignedIn   : state.auth.isSignedIn,
-		creditsTotal : creditsTotal
+		isSignedIn : state.auth.isSignedIn
 	};
 };
 
-export default connect(mapStateToProps, { fetchCreditsTotal, addSupportMessage })(IntroPage);
+export default connect(mapStateToProps, )(IntroPage);

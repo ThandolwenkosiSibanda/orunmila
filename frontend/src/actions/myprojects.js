@@ -44,13 +44,16 @@ export const updateMyProject = (projectId, formValues) => async (dispatch) => {
 };
 
 // 	FETCH_PROJECTS
-export const fetchMyProjects = () => async (dispatch, getState) => {
+export const fetchMyProjects = (status) => async (dispatch, getState) => {
 	const { userId } = getState().auth;
-	const response = await axios.get('/api/projects');
+
+	console.log('status', status);
+	const response = await axios.get('/api/myprojects');
 	dispatch({ type: 'FETCH_MY_PROJECTS', payload: response.data });
 };
 
 export const fetchMyProject = (projectId) => async (dispatch) => {
+	console.log('fetchmyproject', projectId);
 	const response = await axios.get(`/api/projects/${projectId}`);
 	dispatch({ type: 'FETCH_MY_PROJECT', payload: response.data });
 };

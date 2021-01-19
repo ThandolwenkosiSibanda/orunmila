@@ -11,23 +11,26 @@ router = express.Router();
 // Required models
 //========================================================================================================================================
 const Article = require('../models/article'),
-	{ User } = require('../models/user'),
-	Credit = require('../models/credit'),
-	Proposal = require('../models/proposal');
+	{ User } = require('../models/user');
 
 // ===========================================================================================================================================
-//  Get Articles
-//  Update The Information on the load
+//  Get Articles by ID
 //============================================================================================================================================
 
 router.get('/api/articles/:projectId', function(req, res) {
 	const projectId = req.params.projectId;
+
+	let { currentPage } = JSON.parse(req.query.currentPage);
+
+	console.log('page Number', currentPage);
 
 	Article.find({
 		project : projectId
 	})
 		.populate({ path: 'project', model: 'Project' })
 		.populate({ path: 'votes', model: 'Vote' })
+		.limit(2)
+		.skip(0)
 		.exec(function(err, foundArticles) {
 			if (err) {
 				console.log('chatrooms error', err.message);
@@ -39,8 +42,7 @@ router.get('/api/articles/:projectId', function(req, res) {
 });
 
 // ===========================================================================================================================================
-//  Delete Load
-//  Update The Information on the load
+//  Delete Article
 //============================================================================================================================================
 
 router.delete('/api/articles/:articleId', function(req, res) {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Form } from 'redux-form';
+
 import { Link } from 'react-router-dom';
 
 import { reduxForm, Field } from 'redux-form';

@@ -32,7 +32,6 @@ export const signup = (formValues) => async (dispatch, getState) => {
 
 //SIGN_UP
 export const getCurrentUser = () => async (dispatch, getState) => {
-	console.log('getCurrent User');
 	const response = await axios.get('/api/currentuser');
 
 	dispatch({ type: LOGIN, payload: response.data });

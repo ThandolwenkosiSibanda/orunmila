@@ -17,48 +17,6 @@ const NewUserNav = (props) => {
 
 	if (!isSignedIn) {
 		return (
-			// <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-			// 	<div className="">
-			// 		<div className="card-body">
-			// 			<ul className="nav justify-content-end">
-			// 				<li>
-			// 					<Nav.Link as={Link} className="nav-link anchor" to="/" href="/">
-			// 						Home
-			// 					</Nav.Link>
-			// 				</li>
-
-			// 				<li>
-			// 					<Nav.Link
-			// 						as={Link}
-			// 						className="nav-link anchor"
-			// 						to="/#how-it-works"
-			// 						href="/#how-it-works"
-			// 					>
-			// 						How It Works
-			// 					</Nav.Link>
-			// 				</li>
-
-			// 				<li>
-			// 					<Nav.Link as={Link} className="nav-link anchor" to="/signup" href="/signup">
-			// 						Signup
-			// 					</Nav.Link>
-			// 				</li>
-
-			// 				<li>
-			// 					<Nav.Link
-			// 						as={Link}
-			// 						className="nav-link anchor btn btn-outline-primary"
-			// 						to="/login"
-			// 						href="/login"
-			// 					>
-			// 						Login
-			// 					</Nav.Link>
-			// 				</li>
-			// 			</ul>
-			// 		</div>
-			// 	</div>
-			// </div>
-
 			<React.Fragment>
 				<Navbar collapseOnSelect expand="lg" bg="" variant="">
 					<Navbar.Brand href="/">
@@ -94,11 +52,10 @@ const NewUserNav = (props) => {
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		isSignedIn        : state.auth.isSignedIn,
-		currentUserId     : state.auth.userId,
-		userName          : state.auth.userName,
-		userSurname       : state.auth.userSurname,
-		currentUserAvatar : state.auth.userAvatar
+		isSignedIn    : state.auth.isSignedIn,
+		currentUserId : state.auth.userId,
+		userName      : state.auth.userName,
+		userSurname   : state.auth.userSurname
 	};
 };
 

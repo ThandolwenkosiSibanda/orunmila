@@ -58,13 +58,11 @@ require('dotenv').config();
 
 /**
  *  Include and register all Models
- *    1. Loads
- *    2. Transporters
- *    3. Credits
- *    4. Users
- *    5. Proposal
- *    6. Rating
- *    7. Offer
+ *    1. Projects
+ *    2. Votes
+ *    3. User
+ *    4. Article
+ *    5. Report
  */
 
 const Project = require('./models/project');
@@ -72,23 +70,16 @@ const { User } = require('./models/user');
 
 /**
  * Include all Routes But they will be called at the very end
- *    1. Loads
- *    2. Transporters
- *    3. Credits
- *    4. Users
- *    5. Proposals
- *    6. Auth
- *    7. Dashboard
- *    8. Chatroom
- *    9. Message
- *    10. Auth
+ *    1. Projects
+ *    2. Votes
+ *    3. User
+ *    4. Article
+ *    5. Report
  */
 
 const projectRoutes = require('./routes/projects');
-const reviewRoutes = require('./routes/reviews');
 const voteRoutes = require('./routes/votes');
 const userRoutes = require('./routes/users');
-const reviewersRoutes = require('./routes/reviewers');
 const articleRoutes = require('./routes/articles');
 const reportRoutes = require('./routes/reports');
 const authRoutesGoogle = require('./routes/auth-routes-google');
@@ -278,7 +269,7 @@ app.use(function(req, res, next) {
 // set up cors to allow us to accept requests from our client
 app.use(
 	cors({
-		origin      : 'http://kratos-dev.herokuapp.com',
+		origin      : 'http://orunmila.herokuapp.com',
 		// origin      : 'http://localhost:3000', // allow to server to accept request from different origin
 		methods     : 'GET,HEAD,PUT,PATCH,POST,DELETE',
 		credentials : true // allow session cookie from browser to pass through
@@ -290,8 +281,6 @@ app.use(
 //They are however declared at the very top
 //============================================================================================================================================
 app.use(projectRoutes);
-app.use(reviewRoutes);
-app.use(reviewersRoutes);
 app.use(voteRoutes);
 app.use(userRoutes);
 app.use(articleRoutes);

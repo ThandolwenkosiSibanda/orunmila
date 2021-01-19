@@ -4,11 +4,11 @@ import moment from 'moment';
 import Modal from 'react-bootstrap/Modal';
 import { addReviewer, deleteReviewer } from '../../actions/reviewers';
 import { getMyProjects } from '../../actions/myprojects';
-import { fetchCreditsTotal } from '../../actions/creditsTotal';
+
 import AddReviewerForm from './addReviewerForm';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import { Link } from 'react-router-dom';
-import LoadsReducer from '../../reducers/loadsReducer';
+
 import _ from 'lodash';
 
 const ReviewersDashboard = (props) => {

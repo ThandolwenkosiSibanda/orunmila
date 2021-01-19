@@ -17,7 +17,7 @@ import { appendScript } from '../../utils/appendScript';
 import { removeScript } from '../../utils/removeScript';
 
 import { fetchProject } from '../../actions/projects';
-import { addReview } from '../../actions/reviews';
+
 import ProjectForm from './projectForm';
 import ArticleVote from './articleVote';
 import ArticleListItem from './articleListItem';
@@ -120,13 +120,6 @@ const ProjectView = (props) => {
 	);
 };
 
-// const mapStateToProps = (state, ownProps) => {
-// 	return {
-// 		isSignedIn  : state.auth.isSignedIn,
-// 		queryString : ownProps.location.search
-// 	};
-// };
-
 const mapStateToProps = (state, OwnProps) => {
 	return {
 		project   : state.projects[OwnProps.match.params.id],
@@ -134,4 +127,4 @@ const mapStateToProps = (state, OwnProps) => {
 	};
 };
 
-export default connect(mapStateToProps, { fetchProject, addReview })(ProjectView);
+export default connect(mapStateToProps, { fetchProject })(ProjectView);

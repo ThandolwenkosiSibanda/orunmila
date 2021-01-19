@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { fetchProject } from '../../actions/projects';
 import { downloadReport } from '../../actions/reports';
-import { addReview } from '../../actions/reviews';
+
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 import ProjectForm from './projectForm';
 

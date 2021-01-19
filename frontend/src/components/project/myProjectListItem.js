@@ -7,9 +7,7 @@ import ModalHeader from 'react-bootstrap/ModalHeader';
 import { getMyProjects, deleteMyProject, updateMyProject } from '../../actions/myprojects';
 import { fetchArticles } from '../../actions/articles';
 import MyProjectReports from './myProjectReports';
-import { fetchCreditsTotal } from '../../actions/creditsTotal';
 import { Link } from 'react-router-dom';
-import LoadsReducer from '../../reducers/loadsReducer';
 import _ from 'lodash';
 import ReviewersDashboard from './reviewersDashboard';
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
@@ -107,7 +105,7 @@ const MyProjectListItem = (props) => {
 		}
 		return (
 			<span
-				class="badge badge-info float-right pt-2"
+				className="badge badge-info float-right pt-2"
 				onClick={() => {
 					showResultsModal();
 				}}
@@ -118,14 +116,14 @@ const MyProjectListItem = (props) => {
 	};
 
 	const CheckProjectStatus = () => {
-		// let votesCount = props.project.votes ? props.project.votes.length : 0;
-		// let reviewersCount = props.project.reviewers ? props.project.reviewers.length : 0;
-		// let articlesCount = props.project.articles ? props.project.articles.length : 0;
-		// let requiredVotes = reviewersCount * articlesCount;
-		// if (votesCount >= requiredVotes && props.project.status === 'active') {
-		// 	return props.updateMyProject(props.project._id, { status: 'archived' });
-		// }
-		// return '';
+		let votesCount = props.project.votes ? props.project.votes.length : 0;
+		let reviewersCount = props.project.reviewers ? props.project.reviewers.length : 0;
+		let articlesCount = props.project.articles ? props.project.articles.length : 0;
+		let requiredVotes = reviewersCount * articlesCount;
+		if (votesCount >= requiredVotes && props.project.status === 'active') {
+			return props.updateMyProject(props.project._id, { status: 'archived' });
+		}
+		return '';
 
 		return '';
 	};
@@ -226,7 +224,6 @@ const MyProjectListItem = (props) => {
 };
 
 const mapStateToProps = (state) => {
-	console.log('myArticles', state.articles && state.articles.length);
 	return {
 		currentUser : state.auth.userId
 	};

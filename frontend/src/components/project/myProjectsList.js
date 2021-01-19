@@ -16,7 +16,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { appendScript } from '../../utils/appendScript';
 import { removeScript } from '../../utils/removeScript';
 
-import { getMyProjects } from '../../actions/myprojects';
+import { getMyProjects, fetchMyProjects } from '../../actions/myprojects';
 import { addProject } from '../../actions/projects';
 import ProjectForm from './projectForm';
 import LoadListSpinner from '../spinners/loadListSpinner';
@@ -110,4 +110,4 @@ const mapStateToProps = (state, ownProps) => {
 	};
 };
 
-export default connect(mapStateToProps, { getMyProjects, addProject })(MyProjectsList);
+export default connect(mapStateToProps, { getMyProjects, addProject, fetchMyProjects })(MyProjectsList);

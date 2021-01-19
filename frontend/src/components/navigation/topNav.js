@@ -41,11 +41,10 @@ const TopNav = (props) => {
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		isSignedIn        : state.auth.isSignedIn,
-		currentUserId     : state.auth.userId,
-		userName          : state.auth.userName,
-		userSurname       : state.auth.userSurname,
-		currentUserAvatar : state.auth.userAvatar
+		isSignedIn    : state.auth.isSignedIn,
+		currentUserId : state.auth.userId,
+		userName      : state.auth.userName,
+		userSurname   : state.auth.userSurname
 	};
 };
 

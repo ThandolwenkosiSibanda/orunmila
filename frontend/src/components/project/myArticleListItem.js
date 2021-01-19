@@ -7,10 +7,9 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { fetchLoad } from '../../actions/loads';
-import { fetchCreditsTotal } from '../../actions/creditsTotal';
+
 import { Link } from 'react-router-dom';
-import LoadsReducer from '../../reducers/loadsReducer';
+
 import _ from 'lodash';
 
 const MyArticleListItem = (props) => {
@@ -54,7 +53,7 @@ const MyArticleListItem = (props) => {
 							</p>
 							<div className="task-name">{props.article.Title}</div>
 
-							<div className="task-name">{props.article.project.title}</div>
+							<div className="task-name">{props.article.project && props.article.project.title}</div>
 
 							<Accordion
 								expanded={expanded === 'panel' + props.article._id}
@@ -77,7 +76,7 @@ const MyArticleListItem = (props) => {
 								</AccordionSummary>
 								<p>
 									<small>
-										<strong>#Key Words:</strong> {props.article['Author Keywords']}
+										<strong className="pl-3">#Key Words:</strong> {props.article['Author Keywords']}
 									</small>
 								</p>
 								<AccordionDetails>
@@ -99,4 +98,4 @@ const mapStateToProps = (state) => {
 		currentUserId : state.auth.userId
 	};
 };
-export default connect(mapStateToProps, { fetchLoad, fetchCreditsTotal })(MyArticleListItem);
+export default connect(mapStateToProps)(MyArticleListItem);

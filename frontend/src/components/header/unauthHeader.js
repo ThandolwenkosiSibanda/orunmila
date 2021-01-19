@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+
 import history from '../../history';
 import AppRouter from '../../routers/appRouter';
-import Notification from '../notification/notification';
+
 import './unauthHeader.css';
 
-import { Router, Route, Switch, Link, useRouteMatch, useParams } from 'react-router';
-// import MainNav from '../../components/navigation/mainNav';
-import MainNav from '../../components/navigation/nav';
+import { Router } from 'react-router';
+
 import NewUserNav from '../../components/navigation/newUserNav';
 class UnAuthHeader extends React.Component {
 	render() {

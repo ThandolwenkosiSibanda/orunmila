@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { signIn, signOut } from '../../actions/googleAuth';
 import TopNav from '../navs/TopNav';
-import { BrowserRouter as Router, Route, Switch, Link, useRouteMatch, useParams } from 'react-router-dom';
 
 class GoogleAuth extends Component {
 	componentDidMount() {

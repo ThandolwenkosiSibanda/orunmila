@@ -2,6 +2,7 @@ import React, { Component, useState, useEffect } from 'react';
 import selectLoads from '../../selectors/loads';
 import { Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
+import Pagination from '@material-ui/lab/Pagination';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import queryString from 'query-string';
@@ -16,13 +17,18 @@ import LoadListSpinner from '../spinners/loadListSpinner';
 import { appendScript } from '../../utils/appendScript';
 import { removeScript } from '../../utils/removeScript';
 
+import { getArticles } from '../../actions/articles';
 import { fetchMyProject } from '../../actions/myprojects';
-import { addReview } from '../../actions/reviews';
+
 import ProjectForm from './projectForm';
 import ArticleVote from './articleVote';
 import MyArticleListItem from './myArticleListItem';
 import './projectsDashboard.css';
 import ArticleVoteAnalysis from './articleVoteAnalysis';
+import MyArticlePagination from './myArticlePagination';
+
+//Items for pagination
+const articlesPerPage = 10;
 
 const MyProjectView = (props) => {
 	const [ IsOpen, setIsOpen ] = useState(false);
@@ -30,11 +36,18 @@ const MyProjectView = (props) => {
 	const classes = useStyles();
 	const [ expanded, setExpanded ] = React.useState(false);
 	const [ error, setError ] = useState('');
+	//Items for pagination
+	const [ page, setPage ] = useState(1);
+	const [ start, setStart ] = useState(0);
+	const [ end, setEnd ] = useState(articlesPerPage);
+	const [ count, setCount ] = useState(0);
+	const [ next, setNext ] = useState(articlesPerPage);
 
 	useEffect(() => {
 		let isSubscribed = true;
 
 		try {
+			console.log('fetchmyproject', props.projectId);
 			props.fetchMyProject(props.projectId);
 		} catch (err) {
 			setError(err);
@@ -46,6 +59,7 @@ const MyProjectView = (props) => {
 		() => {
 			let isSubscribed = true;
 			try {
+				console.log('fetchmyproject', props.projectId);
 				props.fetchMyProject(props.projectId);
 			} catch (err) {
 				setError(err);
@@ -69,6 +83,10 @@ const MyProjectView = (props) => {
 
 	const handleChange = (panel) => (event, isExpanded) => {
 		setExpanded(isExpanded ? panel : false);
+	};
+
+	const handlePageChange = (currentPage) => {
+		setPage(currentPage);
 	};
 
 	const handleSubmit = (formValues) => {
@@ -105,7 +123,7 @@ const MyProjectView = (props) => {
 									<ArticleVoteAnalysis
 										articleId={article._id}
 										article={article}
-										projectId={props.project._id}
+										projectId={props.projectId}
 										handleSubmit={() => handleSubmit}
 									/>
 								</div>
@@ -122,13 +140,6 @@ const MyProjectView = (props) => {
 	);
 };
 
-// const mapStateToProps = (state, ownProps) => {
-// 	return {
-// 		isSignedIn  : state.auth.isSignedIn,
-// 		queryString : ownProps.location.search
-// 	};
-// };
-
 const mapStateToProps = (state, OwnProps) => {
 	return {
 		project   : state.myprojects[OwnProps.match.params.id],
@@ -136,4 +147,4 @@ const mapStateToProps = (state, OwnProps) => {
 	};
 };
 
-export default connect(mapStateToProps, { fetchMyProject })(MyProjectView);
+export default connect(mapStateToProps, { getArticles, fetchMyProject })(MyProjectView);

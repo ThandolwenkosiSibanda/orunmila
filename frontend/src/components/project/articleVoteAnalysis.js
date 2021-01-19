@@ -52,20 +52,20 @@ const ArticleVoteAnalysis = (props) => {
 
 			if (filtered.length > 0) {
 				setVoted(true);
-				return 'Voted';
+				return '';
 			} else {
-				return 'Yet To Vote';
+				return '';
 			}
 		}
 	};
 
 	const countVotes = () => {
-		// if (props.article.votes && props.article.votes.length > 0) {
-		// 	let reviewers = props.article.votes.map((vote) => {
-		// 		return vote.reviewer._id;
-		// 	});
-		// 	return reviewers.length;
-		// }
+		if (props.article.votes && props.article.votes.length > 0) {
+			let reviewers = props.article.votes.map((vote) => {
+				return vote.reviewer;
+			});
+			return reviewers.length;
+		}
 	};
 
 	const voteAverage = () => {

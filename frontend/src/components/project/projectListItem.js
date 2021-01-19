@@ -2,10 +2,9 @@ import React, { Component, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import Modal from 'react-bootstrap/Modal';
-import { fetchLoad } from '../../actions/loads';
-import { fetchCreditsTotal } from '../../actions/creditsTotal';
+
 import { Link } from 'react-router-dom';
-import LoadsReducer from '../../reducers/loadsReducer';
+
 import _ from 'lodash';
 
 const ProjectListItem = (props) => {
@@ -64,4 +63,4 @@ const mapStateToProps = (state) => {
 		currentUser : state.auth.userId
 	};
 };
-export default connect(mapStateToProps, { fetchLoad, fetchCreditsTotal })(ProjectListItem);
+export default connect(mapStateToProps)(ProjectListItem);

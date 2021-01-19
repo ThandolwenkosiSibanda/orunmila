@@ -37,39 +37,6 @@ conn.once('open', () => {
 	gfs.collection('uploads');
 });
 
-//=========================================================================================================================================
-//  GridFsStorage
-//  Create Storage Engine
-//=========================================================================================================================================
-// const storage = new GridFsStorage({
-// 	url  : process.env.MONGODB_URI,
-// 	file : (req, file) => {
-// 		return new Promise((resolve, reject) => {
-// 			crypto.randomBytes(16, (err, buf) => {
-// 				if (err) {
-// 					return reject(err);
-// 				}
-// 				const filename = buf.toString('hex') + path.extname(file.originalname);
-// 				const fileInfo = {
-// 					filename   : filename,
-// 					bucketName : 'uploads'
-// 				};
-// 				resolve(fileInfo);
-// 			});
-// 		});
-// 	}
-// });
-
-// const storage = multer.diskStorage({
-// 	destination : (req, file, cb) => {
-// 		cb(null, 'uploads');
-// 	},
-// 	filename    : (req, file, cb) => {
-// 		console.log(file);
-// 		cb(null, Date.now() + path.extname(file.originalname));
-// 	}
-// });
-
 global.__basedir = __dirname;
 
 // -> Multer Upload Storage
@@ -89,15 +56,7 @@ let uploads = (module.exports.uploads = multer({ storage }));
 //========================================================================================================================================
 const Project = require('../models/project'),
 	{ User } = require('../models/user'),
-	Article = require('../models/article'),
-	Proposal = require('../models/proposal');
-
-//========================================================================================================================================
-// Required middleware
-//========================================================================================================================================
-const auth = require('../middleware/auth/auth'),
-	unauth = require('../middleware/auth/unauth'),
-	checkCredits = require('../middleware/credits/check');
+	Article = require('../models/article');
 
 // ===========================================================================================================================================
 //  Store
@@ -128,29 +87,6 @@ router.post(
 
 		let absolutePath = path.resolve('./uploads/' + req.files.csv[0].filename);
 
-		// MongoClient.connect(CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
-		// 	if (err) throw err;
-		// 	let dbo = db.db('trucker-zim');
-		// 	dbo.collection('projects').insertOne(projectDetails, (err, result) => {
-		// 		if (err) throw err;
-
-		// 		importCsvData2MongoDB(absolutePath, result.insertedId, result.ops[0].threshold);
-
-		// 		User.findById(user, function(err, foundUser) {
-		// 			if (err) {
-		// 				console.log(err);
-		// 			} else {
-		// 				foundUser.projects.push(result.insertedId);
-		// 				foundUser.save(function(err, data) {});
-		// 			}
-		// 		});
-
-		// 		db.close();
-		// 	});
-		// });
-
-		// return res.json(projectDetails);
-
 		Project.create(projectDetails, function(err, newProject) {
 			if (err) {
 				console.log(error);
@@ -179,16 +115,6 @@ function importCsvData2MongoDB(filePath, projectId, threshold) {
 			object.status = 'active';
 			return object;
 		});
-
-		// MongoClient.connect(CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
-		// 	if (err) throw err;
-		// 	let dbo = db.db('trucker-zim');
-		// 	dbo.collection('articles').insertMany(newJsonObj, (err, res) => {
-		// 		if (err) throw err;
-		// 		console.log('Number of documents inserted: ' + res.insertedCount);
-		// 		db.close();
-		// 	});
-		// });
 
 		Article.collection.insertMany(newJsonObj, function(err, res) {
 			if (err) {
@@ -226,10 +152,6 @@ router.get('/api/projects', function(req, res) {
 
 	console.log('status', status);
 
-	// Project.find(user).populate('projects').sort({ $natural: -1 }).exec(function(err, user) {
-
-	// }
-
 	User.findById(user).populate('projects').sort({ $natural: -1 }).exec(function(err, user) {
 		if (err) {
 			console.log(err);
@@ -250,6 +172,8 @@ router.get('/api/myprojects', function(req, res) {
 	let user = req.user;
 	let { status } = JSON.parse(req.query.status);
 
+	// let status = 'active';
+
 	console.log('myprojects', status);
 
 	Project.find({
@@ -258,21 +182,13 @@ router.get('/api/myprojects', function(req, res) {
 	})
 		.populate('user')
 		.populate('reviewers')
+		.populate({ path: 'articles', model: 'Article' })
 		.populate('votes')
-		.populate('articles')
 		.sort({ $natural: -1 })
 		.exec(function(err, projects) {
 			if (err) {
 				console.log(err);
 			} else {
-				// let filteredProjects =
-				// 	projects &&
-				// 	projects.filter((project) => {
-				// 		return project.status === status;
-				// 	});
-
-				// console.log('count', projects.length);
-				// console.log('count', filteredProjects.length);
 				console.log('myprojectsCount', projects.length);
 
 				return res.json(projects);
@@ -287,8 +203,8 @@ router.get('/api/projects/:id', function(req, res) {
 	Project.findById(projectId)
 		.populate({ path: 'user', model: 'User' })
 		.populate({ path: 'reviewers', model: 'User' })
-		.populate({ path: 'votes', model: 'Vote', populate: { path: 'reviewer', model: 'User' } })
 		.populate({ path: 'articles', model: 'Article', populate: { path: 'votes', model: 'Vote' } })
+		.populate({ path: 'votes', model: 'Vote', populate: { path: 'reviewer', model: 'User' } })
 		.exec(function(err, foundProject) {
 			if (err) {
 				console.log('error');
@@ -296,30 +212,6 @@ router.get('/api/projects/:id', function(req, res) {
 
 			return res.json(foundProject);
 		});
-
-	// Article.find({
-	// 	$or : [ { project: projectId } ]
-	// })
-	// 	// .where({ votes: { $in: [ '5ff63d7e63b5132bfc68ceb5' ] } })
-	// 	.populate('project')
-	// 	.populate({ path: 'votes', populate: { path: 'reviewer', model: 'User' } })
-	// 	.limit(50)
-	// 	.sort({ $natural: -1 })
-	// 	.exec(function(err, articles) {
-	// 		if (err) {
-	// 			console.log(err);
-	// 		} else {
-	// 			let filteredArticles =
-	// 				articles &&
-	// 				articles.filter((article) => {
-	// 					return article.status === 'active';
-	// 				});
-
-	// 			console.log('articles', articles.length);
-
-	// 			return res.json(articles);
-	// 		}
-	// 	});
 });
 
 router.delete('/api/projects/:projectId', function(req, res) {

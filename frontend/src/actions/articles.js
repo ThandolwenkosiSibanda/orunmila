@@ -13,12 +13,6 @@ export const deleteArticle = (articleId) => async (dispatch) => {
 	history.push('/projects');
 };
 
-// export const updateArticle = (articleId) => async (dispatch) => {
-// 	await axios.put(`/api/articles/${articleId}`);
-// 	dispatch({ type: 'DELETE_ARTICLE', payload: articleId });
-// 	history.push('/projects');
-// };
-
 export const updateArticle = (articleId, formValues) => async (dispatch) => {
 	console.log('updated');
 	const response = await axios.put(`/api/articles/${articleId}`, formValues);
@@ -26,6 +20,9 @@ export const updateArticle = (articleId, formValues) => async (dispatch) => {
 	dispatch({ type: 'UPDATE_ARTICLE', payload: response.data });
 };
 
-export const getArticles = (projectId) => async (dispatch, getState) => {
-	dispatch({ type: 'FETCH_ARTICLES_REQUEST', payload: { loading: true, projectId: projectId } });
+export const getArticles = (projectId, currentPage) => async (dispatch, getState) => {
+	dispatch({
+		type    : 'FETCH_ARTICLES_REQUEST',
+		payload : { loading: true, projectId: projectId, currentPage: currentPage }
+	});
 };
