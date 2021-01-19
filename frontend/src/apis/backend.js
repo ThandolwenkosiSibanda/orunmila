@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 export default axios.create({
-	// baseURL         : '',
-	baseURL         : 'http://localhost:4000',
+	baseURL         : '',
+	// baseURL         : 'http://localhost:4000',
 	withCredentials : true,
 	crossDomain     : true,
 	headers         : {
