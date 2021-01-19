@@ -82,6 +82,7 @@ const voteRoutes = require('./routes/votes');
 const userRoutes = require('./routes/users');
 const articleRoutes = require('./routes/articles');
 const reportRoutes = require('./routes/reports');
+const reviewersRoutes = require('./routes/reviewers');
 const authRoutesGoogle = require('./routes/auth-routes-google');
 
 /**
@@ -94,7 +95,7 @@ const authRoutesGoogle = require('./routes/auth-routes-google');
 
 const CONNECTION_URI =
 	process.env.MONGODB_URI ||
-	'mongodb+srv://admin:thand0l2@cluster0.vufj9.mongodb.net/trucker-zim?retryWrites=true&w=majority';
+	'mongodb+srv://admin:thand0l2@clusterorunmila.kzeci.mongodb.net/orunmila?retryWrites=true&w=majority';
 
 //=========================================================================================================================================
 //  GridFs Stream
@@ -269,8 +270,8 @@ app.use(function(req, res, next) {
 // set up cors to allow us to accept requests from our client
 app.use(
 	cors({
-		origin      : 'http://orunmila.herokuapp.com',
-		// origin      : 'http://localhost:3000', // allow to server to accept request from different origin
+		// origin      : 'http://orunmila.herokuapp.com',
+		origin      : 'http://localhost:3000', // allow to server to accept request from different origin
 		methods     : 'GET,HEAD,PUT,PATCH,POST,DELETE',
 		credentials : true // allow session cookie from browser to pass through
 	})
@@ -286,6 +287,7 @@ app.use(userRoutes);
 app.use(articleRoutes);
 app.use(authRoutesGoogle);
 app.use(reportRoutes);
+app.use(reviewersRoutes);
 
 /** 
  * Socket IO Functions

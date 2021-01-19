@@ -11,8 +11,9 @@ import { ADD_LOAD, DELETE_LOAD, UPDATE_LOAD, FETCH_LOAD, FETCH_LOADS } from './t
 export const addReviewer = (formValues, projectId) => async (dispatch, getState) => {
 	const response = await axios.post('/api/reviewers', { ...formValues, projectId });
 
-	// dispatch({ type: 'ADD_REVIEWER', payload: response.data });
-	// dispatch({ type: 'FETCH_MY_PROJECTS_REQUEST', payload: { loading: true } });
+	console.log('add response', response.data);
+
+	dispatch({ type: 'ADD_REVIEWER', payload: response.data });
 
 	history.push(`/projects/?status=active`);
 	history.push(`/myprojects/?status=active`);

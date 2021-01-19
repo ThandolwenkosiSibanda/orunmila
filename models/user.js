@@ -6,97 +6,65 @@ const passportLocalMongoose = require('passport-local-mongoose');
  * User Schema
  */
 const UserSchema = new mongoose.Schema({
-	name         : {
+	name       : {
 		type      : String,
-		required  : false,
+		required  : true,
 		minlength : 1,
 		maxlength : 100
 	},
-	surname      : {
+	surname    : {
 		type      : String,
-		required  : false,
+		required  : true,
 		minlength : 1,
 		maxlength : 100
 	},
-	googleId     : {
-		type     : String,
-		required : false
-	},
-	email        : {
+
+	email      : {
 		type      : String,
 		required  : true,
 		minlength : 5,
 		maxlength : 255
 	},
-	phone        : {
+
+	password   : {
 		type      : String,
-		required  : false,
-		minlength : 3,
-		maxlength : 100
-	},
-	nationalIdNo : {
-		type      : String,
-		required  : false,
-		minlength : 3,
-		maxlength : 100
-	},
-	address      : {
-		type      : String,
-		required  : false,
-		minlength : 3,
-		maxlength : 500
-	},
-	city         : {
-		type      : String,
-		required  : false,
-		minlength : 3,
-		maxlength : 500
-	},
-	country      : {
-		type      : String,
-		required  : false,
-		minlength : 3,
-		maxlength : 500
-	},
-	password     : {
-		type      : String,
-		required  : false,
+		required  : true,
 		minlength : 1,
 		maxlength : 255
 	},
-	status       : {
+	status     : {
 		type     : String,
 		required : false
 	},
-	userType     : {
+	userType   : {
 		type     : String,
 		required : false
 	},
-	avatar       : {
+	avatar     : {
 		type : String
 	},
 
-	nationalID   : {
+	nationalID : {
 		type : String
 	},
-	reason       : {
+	reason     : {
 		type     : String,
 		required : false
 	},
-	ratings      : [
+	ratings    : [
 		{
 			type : mongoose.Schema.Types.ObjectId,
 			ref  : 'Rating'
 		}
 	],
-	projects     : [
+	projects   : [
 		{
 			type : mongoose.Schema.Types.ObjectId,
 			ref  : 'Project'
 		}
 	],
-	isAdmin      : Boolean,
-	createdAt    : {
+	isAdmin    : Boolean,
+	createdAt  : {
 		type    : Date,
 		default : Date.now
 	}

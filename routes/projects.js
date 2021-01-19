@@ -22,7 +22,7 @@ const passport = require('passport'),
 
 const client = new OAuth2Client(process.env.OAUTH_CLIENT_ID);
 
-const CONNECTION_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/thetruckerzim';
+const CONNECTION_URI = process.env.MONGODB_URI;
 
 //=========================================================================================================================================
 //  GridFs Stream
@@ -145,12 +145,10 @@ function importCsvData2MongoDB(filePath, projectId, threshold) {
 	});
 }
 
-router.get('/api/projects', function(req, res) {
+router.get('/api/projects', isLoggedin, function(req, res) {
 	let user = req.user;
 
 	let { status } = JSON.parse(req.query.status);
-
-	console.log('status', status);
 
 	User.findById(user).populate('projects').sort({ $natural: -1 }).exec(function(err, user) {
 		if (err) {
@@ -161,7 +159,6 @@ router.get('/api/projects', function(req, res) {
 				user.projects.filter((project) => {
 					return project.status === status;
 				});
-			console.log('fcount', filteredProjects.length);
 
 			return res.json(filteredProjects);
 		}
@@ -248,5 +245,11 @@ router.put('/api/projects/:projectId', function(req, res) {
 		}
 	});
 });
+
+function isLoggedin(req, res, next) {
+	if (req.user) {
+		return next();
+	}
+}
 
 module.exports = router;

@@ -74,7 +74,6 @@ router.post('/api/reports', (req, res) => {
 				console.log(err);
 				res.send(Promise.reject());
 			}
-			console.log(result); // { filename: '/app/businesscard.pdf' }
 
 			res.send(Promise.resolve());
 		});

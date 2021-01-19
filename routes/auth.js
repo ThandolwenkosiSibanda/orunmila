@@ -29,7 +29,6 @@ router.get('/api/login/success', (req, res) => {
 
 // When logout, redirect to client
 router.get('/api/logout', (req, res) => {
-	console.log('logout');
 	req.logout();
 	return res.json({});
 });

@@ -17,7 +17,9 @@ const passport = require('passport'),
 
 const client = new OAuth2Client(process.env.OAUTH_CLIENT_ID);
 
-const CONNECTION_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/thetruckerzim';
+const CONNECTION_URI =
+	process.env.MONGODB_URI ||
+	'mongodb+srv://admin:thand0l2@clusterorunmila.kzeci.mongodb.net/orunmila?retryWrites=true&w=majority';
 
 //=========================================================================================================================================
 //  GridFs Stream
