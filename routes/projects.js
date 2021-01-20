@@ -12,44 +12,24 @@ const passport = require('passport'),
 	mongodb = require('mongodb'),
 	express = require('express'),
 	multer = require('multer'),
-	GridFsStorage = require('multer-gridfs-storage'),
 	Grid = require('gridfs-stream'),
-	{ OAuth2Client } = require('google-auth-library'),
 	crypto = require('crypto'),
 	router = express.Router(),
 	_ = require('lodash'),
 	csv = require('csvtojson');
 
-const client = new OAuth2Client(process.env.OAUTH_CLIENT_ID);
-
-const CONNECTION_URI = process.env.MONGODB_URI;
-
-//=========================================================================================================================================
-//  GridFs Stream
-// Initialize GridFS Stream > Use an existing mongodb-native db instance
-// ========================================================================================================================================
-
-let gfs;
-const conn = mongoose.createConnection(CONNECTION_URI, { useNewUrlParser: true });
-
-conn.once('open', () => {
-	gfs = Grid(conn.db, mongoose.mongo);
-	gfs.collection('uploads');
-});
-
-global.__basedir = __dirname;
-
 // -> Multer Upload Storage
 const storage = multer.diskStorage({
 	destination : (req, file, cb) => {
-		cb(null, 'uploads');
+		cb(null, __dirname + '/uploads');
 	},
 	filename    : (req, file, cb) => {
+		console.log('uploaded file', file);
 		cb(null, file.fieldname + '-' + Date.now() + '-' + file.originalname);
 	}
 });
 
-let uploads = (module.exports.uploads = multer({ storage }));
+let uploads = (module.exports.uploads = multer({ storage: storage }));
 
 //========================================================================================================================================
 // Required models
@@ -85,7 +65,7 @@ router.post(
 		// projectDetails.createdAt = Date.now();
 		projectDetails.reviewers = reviewers;
 
-		let absolutePath = path.resolve('./uploads/' + req.files.csv[0].filename);
+		let absolutePath = path.resolve(__dirname + '/uploads/' + req.files.csv[0].filename);
 
 		Project.create(projectDetails, function(err, newProject) {
 			if (err) {

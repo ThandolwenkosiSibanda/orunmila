@@ -31,25 +31,6 @@ const server = http.createServer(app);
 /**
  * export io for use in the Socket Manager
  */
-var io = (module.exports.io = socketIO(server));
-
-/**
- * Create the  Const for the Socket Manager
- */
-
-// const SocketManager = require('./SocketManager');
-
-/**
- * Pusher Configuration
- */
-
-const pusher = new Pusher({
-	appId   : '1101564',
-	key     : '3af11569f88118f97cfc',
-	secret  : 'e8e13c67c7c5acd1381f',
-	cluster : 'ap2',
-	useTLS  : true
-});
 
 /**
  * Require ENV
@@ -92,72 +73,6 @@ const authRoutesGoogle = require('./routes/auth-routes-google');
  * 3. Enabling body parser to enable the collection of data from submitted forms
  * 4. Initialize Passport  for authentication
  */
-
-const CONNECTION_URI =
-	process.env.MONGODB_URI ||
-	'mongodb+srv://admin:thand0l2@clusterorunmila.kzeci.mongodb.net/orunmila?retryWrites=true&w=majority';
-
-//=========================================================================================================================================
-//  GridFs Stream
-// Initialize GridFS Stream > Use an existing mongodb-native db instance
-// ========================================================================================================================================
-
-let gfs;
-const conn = mongoose.createConnection(CONNECTION_URI, { useNewUrlParser: true });
-
-conn.once('open', () => {
-	gfs = Grid(conn.db, mongoose.mongo);
-	gfs.collection('uploads');
-
-	const messageCollection = conn.collection('messages');
-
-	const changeStream = messageCollection.watch();
-
-	changeStream.on('change', (change) => {
-		// console.log('change is checked', change)
-		if (change.operationType === 'insert') {
-			const messageDetails = change.fullDocument;
-
-			console.log(messageDetails);
-
-			pusher.trigger('messages', 'inserted', {
-				_id       : messageDetails._id,
-				user      : messageDetails.user,
-				content   : messageDetails.content,
-				chatroom  : messageDetails.chatroom,
-				status    : messageDetails.status,
-				createdAt : messageDetails.createdAt
-			});
-		}
-	});
-
-	// console.log(changeStream);
-});
-
-//=========================================================================================================================================
-//  GridFsStorage
-//  Create Storage Engine
-//=========================================================================================================================================
-const storage = new GridFsStorage({
-	url  : process.env.MONGODB_URI,
-	file : (req, file) => {
-		return new Promise((resolve, reject) => {
-			crypto.randomBytes(16, (err, buf) => {
-				if (err) {
-					return reject(err);
-				}
-				const filename = buf.toString('hex') + path.extname(file.originalname);
-				const fileInfo = {
-					filename   : filename,
-					bucketName : 'uploads'
-				};
-				resolve(fileInfo);
-			});
-		});
-	}
-});
-
-let uploads = (module.exports.uploads = multer({ storage }));
 
 mongoose.connect(
 	process.env.MONGODB_URI,
@@ -273,7 +188,7 @@ app.use(
 		origin      : 'http://orunmila.herokuapp.com',
 		// origin      : 'http://localhost:3000', // allow to server to accept request from different origin
 		methods     : 'GET,HEAD,PUT,PATCH,POST,DELETE',
-		credentials : true // allow session cookie from browser to pass through
+		credentials : true // allow session cookie from browser to pass througho
 	})
 );
 
