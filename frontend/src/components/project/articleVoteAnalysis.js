@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 
 import { addVote } from '../../actions/votes';
+import { updateArticle } from '../../actions/articles';
 
 // The purpose of the connect wrapper is to communicate with the provider in order to get the store
 
@@ -91,8 +92,38 @@ const ArticleVoteAnalysis = (props) => {
 		}
 	};
 
+	const CheckIfPassedThreshold = () => {
+		if (props.article.votes && props.article.votes.length > 0) {
+			let votesCount = props.article.votes.map((vote) => {
+				return vote;
+			});
+
+			let voteScore = props.article.votes.map((vote) => vote.score).reduce((prev, next) => prev + next);
+
+			let threshold = props.article.threshold;
+
+			console.log('check ', voteScore * 20 * votesCount.length);
+
+			let averageScore = voteScore * 20 / votesCount.length;
+
+			console.log('average score', averageScore);
+			console.log('threshold', threshold);
+			console.log('votesCount', votesCount.length);
+			console.log('voteScore', voteScore);
+
+			if (votesCount.length >= 3 && averageScore < threshold && props.article.status === 'active') {
+				props.updateArticle(props.article._id, { status: 'rejected' });
+			}
+
+			if (votesCount.length >= 3 && averageScore >= threshold && props.article.status === 'active') {
+				props.updateArticle(props.article._id, { status: 'accepted' });
+			}
+		}
+	};
+
 	return (
 		<section className="task-list">
+			{CheckIfPassedThreshold()}
 			<div className="task-block card">
 				<div className="task-details">
 					<p>
@@ -154,4 +185,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, { addVote })(formWrapped);
+export default connect(mapStateToProps, { addVote, updateArticle })(formWrapped);

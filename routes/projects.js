@@ -159,7 +159,7 @@ router.get('/api/myprojects', function(req, res) {
 	})
 		.populate('user')
 		.populate('reviewers')
-		.populate({ path: 'articles', model: 'Article' })
+		.populate({ path: 'articles', model: 'Article', populate: { path: 'votes', model: 'Vote' } })
 		.populate('votes')
 		.sort({ $natural: -1 })
 		.exec(function(err, projects) {
@@ -186,6 +186,8 @@ router.get('/api/projects/:id', function(req, res) {
 			if (err) {
 				console.log('error');
 			}
+
+			console.log('foundProject', foundProject);
 
 			return res.json(foundProject);
 		});

@@ -25,6 +25,7 @@
 		"express": "^4.17.1",
 		"express-flash": "0.0.2",
 		"express-session": "^1.17.1",
+		"falafel": "^2.2.4",
 		"google-auth-library": "^6.1.0",
 		"gridfs-stream": "^1.1.1",
 		"html-pdf": "^2.2.0",

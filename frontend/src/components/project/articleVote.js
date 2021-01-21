@@ -116,11 +116,11 @@ const ArticleVote = (props) => {
 			console.log('voteScore', voteScore);
 
 			if (votesCount.length >= 3 && averageScore < threshold && props.article.status === 'active') {
-				props.updateArticle(props.article._id, { status: 'failed' });
+				props.updateArticle(props.article._id, { status: 'rejected' });
 			}
 
-			if (votesCount.length >= 3 && averageScore > threshold && props.article.status === 'active') {
-				props.updateArticle(props.article._id, { status: 'passed' });
+			if (votesCount.length >= 3 && averageScore >= threshold && props.article.status === 'active') {
+				props.updateArticle(props.article._id, { status: 'accepted' });
 			}
 		}
 	};
