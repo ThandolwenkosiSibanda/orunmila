@@ -8,12 +8,16 @@ let renderList = (project) => {
 
 let AcceptedArticlesList = (project) => {
 	let acceptedArticles = project.articles.filter((article) => article.status === 'accepted').map((article) => {
+		let voteScore = article.votes.map((vote) => vote.score).reduce((prev, next) => prev + next);
+		let averageScore = voteScore * 20 / article.votes.length;
+
 		return `
         <hr>
         <p><strong>Article Title:</strong></p>
         <p>${article.Title}</p>
         <p><strong>Abstract:</strong></p>
         <p>${article.Abstract}</p>
+        <button class= 'btn btn-primary'>Article Score: ${Math.floor(averageScore)} % </button>
        
         `;
 	});
@@ -36,14 +40,29 @@ let VotesList = (votes) => {
 	return articlesVotes;
 };
 
+let AverageScore = (votes) => {
+	let votesCount = votes.map((vote) => {
+		return vote;
+	});
+
+	let voteScore = votes.map((vote) => vote.score).reduce((prev, next) => prev + next);
+
+	let averageScore = voteScore * 20 / votesCount.length;
+
+	return Math.floor(averageScore);
+};
+
 let RejectedArticlesList = (project) => {
 	let rejectedArticles = project.articles.filter((article) => article.status === 'rejected').map((article) => {
+		let voteScore = article.votes.map((vote) => vote.score).reduce((prev, next) => prev + next);
+		let averageScore = voteScore * 20 / article.votes.length;
 		return `
         <hr>
         <p><strong>Article Title:</strong></p>
         <p>${article.Title}</p>
         <p><strong>Abstract:</strong></p>
         <p>${article.Abstract}</p>
+        <button class='btn btn-danger'>Article Score: ${Math.floor(averageScore)} % </button>
 
 <h6>Reasons for Rejection</h6>
 
@@ -94,9 +113,35 @@ module.exports = (project) => {
           display: table-header-group;
         }
 
-        li{
-          list-style-type: none;
+     
+
+
+        .btn{
+          border-radius: 2px;
+border: 1px solid transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+font-size: .825rem;
         }
+
+        .btn-primary{
+          color: #ffffff;
+background-color: #093fab;
+border-color: #093fab;
+
+
+
+        }
+
+        .btn-danger{
+          color: #ffffff;
+background-color: red;
+border-color: red;
+        }
+
+
   
       </style>
     </head>
