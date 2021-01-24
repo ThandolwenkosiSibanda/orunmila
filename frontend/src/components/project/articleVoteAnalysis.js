@@ -88,7 +88,7 @@ const ArticleVoteAnalysis = (props) => {
 			// console.log('votesCount', votesCount.length);
 			// console.log('voteScore', voteScore);
 
-			return averageScore;
+			return averageScore + `%`;
 		}
 	};
 

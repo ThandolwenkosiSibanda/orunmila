@@ -7,22 +7,44 @@ let renderList = (project) => {
 };
 
 let AcceptedArticlesList = (project) => {
-	let acceptedArticles = project.articles.filter((article) => article.status === 'accepted').map((article) => {
+	// let acceptedArticles = project.articles.filter((article) => article.status === 'accepted').map((article) => {
+	// 	let voteScore = article.votes.map((vote) => vote.score).reduce((prev, next) => prev + next);
+	// 	let averageScore = voteScore * 20 / article.votes.length;
+
+	// 	return `
+	//       <hr>
+	//       <p><strong>Article Title:</strong></p>
+	//       <p>${article.Title}</p>
+	//       <p><strong>Abstract:</strong></p>
+	//       <p>${article.Abstract}</p>
+	//       <button class= 'btn btn-primary'>Article Score: ${Math.floor(averageScore)} % </button>
+
+	//       `;
+	// });
+
+	// return acceptedArticles;
+
+	let acceptedArticles = project.articles.filter((article) => article.status === 'accepted');
+
+	let sums = acceptedArticles.map(({ votes }) => votes.reduce((s, { score }) => s + score, 0)),
+		result = [ ...sums.keys() ].sort((a, b) => sums[b] - sums[a]).map((i) => acceptedArticles[i]);
+
+	let sortedArticles = result.map((article) => {
 		let voteScore = article.votes.map((vote) => vote.score).reduce((prev, next) => prev + next);
 		let averageScore = voteScore * 20 / article.votes.length;
-
 		return `
-        <hr>
-        <p><strong>Article Title:</strong></p>
-        <p>${article.Title}</p>
-        <p><strong>Abstract:</strong></p>
-        <p>${article.Abstract}</p>
-        <button class= 'btn btn-primary'>Article Score: ${Math.floor(averageScore)} % </button>
-       
-        `;
+
+          <hr>
+          <p><strong>Article Title:</strong></p>
+          <p>${article.Title}</p>
+          <p><strong>Abstract:</strong></p>
+          <p>${article.Abstract}</p>
+          <button class='btn btn-primary'>Article Score: ${Math.floor(averageScore)} % </button>
+
+          `;
 	});
 
-	return acceptedArticles;
+	return sortedArticles;
 };
 
 let VotesList = (votes) => {
@@ -52,29 +74,59 @@ let AverageScore = (votes) => {
 	return Math.floor(averageScore);
 };
 
+// let RejectedArticlesList = (project) => {
+// 	let rejectedArticles = project.articles.filter((article) => article.status === 'rejected').map((article) => {
+// 		let voteScore = article.votes.map((vote) => vote.score).reduce((prev, next) => prev + next);
+// 		let averageScore = voteScore * 20 / article.votes.length;
+// 		return `
+
+//         <hr>
+//         <p><strong>Article Title:</strong></p>
+//         <p>${article.Title}</p>
+//         <p><strong>Abstract:</strong></p>
+//         <p>${article.Abstract}</p>
+//         <button class='btn btn-danger'>Article Score: ${Math.floor(averageScore)} % </button>
+
+// <h6>Reasons for Rejection</h6>
+
+//         <ul>
+//       ${VotesList(article.votes)}
+//         </ul>
+
+//         `;
+// 	});
+
+// 	return rejectedArticles;
+// };
+
 let RejectedArticlesList = (project) => {
-	let rejectedArticles = project.articles.filter((article) => article.status === 'rejected').map((article) => {
+	let rejectedArticles = project.articles.filter((article) => article.status === 'rejected');
+
+	let sums = rejectedArticles.map(({ votes }) => votes.reduce((s, { score }) => s + score, 0)),
+		result = [ ...sums.keys() ].sort((a, b) => sums[b] - sums[a]).map((i) => rejectedArticles[i]);
+
+	let sortedArticles = result.map((article) => {
 		let voteScore = article.votes.map((vote) => vote.score).reduce((prev, next) => prev + next);
 		let averageScore = voteScore * 20 / article.votes.length;
 		return `
-        <hr>
-        <p><strong>Article Title:</strong></p>
-        <p>${article.Title}</p>
-        <p><strong>Abstract:</strong></p>
-        <p>${article.Abstract}</p>
-        <button class='btn btn-danger'>Article Score: ${Math.floor(averageScore)} % </button>
 
-<h6>Reasons for Rejection</h6>
-
-        <ul>
-      ${VotesList(article.votes)}
-        </ul>
-
-       
-        `;
+          <hr>
+          <p><strong>Article Title:</strong></p>
+          <p>${article.Title}</p>
+          <p><strong>Abstract:</strong></p>
+          <p>${article.Abstract}</p>
+          <button class='btn btn-danger'>Article Score: ${Math.floor(averageScore)} % </button>
+  
+  <h6>Reasons for Rejection</h6>
+  
+          <ul>
+        ${VotesList(article.votes)}
+          </ul>
+  
+          `;
 	});
 
-	return rejectedArticles;
+	return sortedArticles;
 };
 
 let RejectedArticlesCount = (project) => {
@@ -161,12 +213,12 @@ border-color: red;
  
    
 
-   <h5>Accepted Articles:</h5>
+   <h1>Accepted Articles:</h1>
        
         ${AcceptedArticlesList(project)}
 
 
-        <h5>Rejected Articles:</h5>
+        <h1>Rejected Articles:</h1>
 
         ${RejectedArticlesList(project)}
         

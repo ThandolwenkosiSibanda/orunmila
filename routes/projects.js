@@ -2,7 +2,8 @@
 *  Required modules
 */
 
-const fs = require('fs');
+const fs = require('fs'),
+	Mongoose = require('mongoose');
 
 let MongoClient = require('mongodb').MongoClient;
 
@@ -149,9 +150,67 @@ router.get('/api/myprojects', function(req, res) {
 	let user = req.user;
 	let { status } = JSON.parse(req.query.status);
 
-	// let status = 'active';
+	// Project.aggregate([
+	// 	// First Stage
+	// 	{
+	// 		$match : { user: new Mongoose.Types.ObjectId(user._id) }
+	// 	},
+	// 	// Second Stage
 
-	console.log('myprojects', status);
+	// 	{ $unwind: '$votes' },
+	// 	{
+	// 		$lookup : {
+	// 			from         : 'votes',
+	// 			localField   : 'votes',
+	// 			foreignField : '_id',
+	// 			as           : 'votesArray'
+	// 		}
+	// 	},
+	// 	{ $unwind: '$votesArray' },
+	// 	{
+	// 		$group : {
+	// 			_id        : '$_id',
+	// 			VotesTotal : { $sum: '$votesArray.score' }
+	// 		}
+	// 	},
+
+	// 	// Third Stage
+	// 	{
+	// 		$sort : { VotesTotal: -1 }
+	// 	}
+	// ]).exec(function(err, projects) {
+	// 	if (err) {
+	// 		console.log(err);
+	// 	} else {
+	// 		console.log('myprojectsCount', projects);
+
+	// 		return res.json(projects);
+	// 	}
+	// });
+
+	// Project.aggregate(
+	// 	[
+	// 		{ $match: { user: new Mongoose.Types.ObjectId(user._id) } },
+	// 		{ $match: { status: status } },
+	// 		{ $lookup: { from: 'users', localField: 'reviewers', foreignField: '_id', as: 'reviewers' } },
+
+	// 		{ $lookup: { from: 'users', localField: 'user', foreignField: '_id', as: 'user' } },
+	// 		{
+	// 			$lookup : { from: 'votes', localField: 'votes', foreignField: '_id', as: 'votes' }
+	// 		},
+	// 		{
+	// 			$lookup : { from: 'articles', localField: 'articles', foreignField: '_id', as: 'articles' }
+	// 		}
+	// 	],
+	// 	function(err, projects) {
+	// 		if (err) {
+	// 			console.log(err);
+	// 		} else {
+	// 			console.log(projects[0].articles[0].votes);
+	// 			return res.json(projects);
+	// 		}
+	// 	}
+	// );
 
 	Project.find({
 		user   : user,
