@@ -143,9 +143,6 @@ const MyProjectListItem = (props) => {
 									<span className=" float-right delete" data-tip="Download Report">
 										<CheckIfVotingCompleted />
 									</span>
-									<span className=" float-right delete">
-										<ViewResults />
-									</span>
 
 									<Link to={`/myprojects/${props.project._id}`}>
 										<p>
@@ -158,7 +155,7 @@ const MyProjectListItem = (props) => {
 									<Link to={`/myprojects/${props.project._id}`}>
 										<div className="task-name"> {props.project.title}</div>
 									</Link>
-									<p>Threshold: {props.project.threshold}</p>
+									<p>Threshold: {props.project.threshold} %</p>
 
 									<p>
 										Cast Votes: {props.project.votes ? props.project.votes.length : 0} of{' '}

@@ -3,7 +3,7 @@ import axios from '../apis/backend';
 
 /** function that returns an axios call */
 const articleApi = async ({ projectId, currentPage }) => {
-	console.log('currentPage', currentPage);
+	
 
 	
 	return await axios.get(`/api/articles/${projectId}`, { params: { currentPage } });

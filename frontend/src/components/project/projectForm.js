@@ -127,7 +127,7 @@ class ProjectForm extends Component {
 	onSubmit = (formValues) => {
 		let csv = this.state.CSV ? this.state.CSV : '';
 
-		console.log('csv', csv);
+		
 		this.props.onSubmit(formValues, csv);
 	};
 

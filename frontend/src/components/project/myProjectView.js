@@ -47,7 +47,7 @@ const MyProjectView = (props) => {
 		let isSubscribed = true;
 
 		try {
-			console.log('fetchmyproject', props.projectId);
+			
 			props.fetchMyProject(props.projectId);
 		} catch (err) {
 			setError(err);
@@ -59,7 +59,7 @@ const MyProjectView = (props) => {
 		() => {
 			let isSubscribed = true;
 			try {
-				console.log('fetchmyproject', props.projectId);
+			
 				props.fetchMyProject(props.projectId);
 			} catch (err) {
 				setError(err);
@@ -90,7 +90,7 @@ const MyProjectView = (props) => {
 	};
 
 	const handleSubmit = (formValues) => {
-		console.log('yesz');
+		
 	};
 
 	const queryString = () => {

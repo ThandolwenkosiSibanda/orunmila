@@ -102,7 +102,7 @@ const ProjectsList = (props) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-	console.log('projects', _.toArray(state.projects));
+	
 	return {
 		projects   : _.toArray(state.projects),
 		isSignedIn : state.auth.isSignedIn

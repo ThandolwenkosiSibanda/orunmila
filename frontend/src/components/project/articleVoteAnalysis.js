@@ -79,16 +79,9 @@ const ArticleVoteAnalysis = (props) => {
 
 			let threshold = props.article.threshold;
 
-			// console.log('check ', voteScore * 20 * votesCount.length);
-
 			let averageScore = voteScore * 20 / votesCount.length;
 
-			// console.log('average score', averageScore);
-			// console.log('threshold', threshold);
-			// console.log('votesCount', votesCount.length);
-			// console.log('voteScore', voteScore);
-
-			return averageScore + `%`;
+			return Math.floor(averageScore) + `%`;
 		}
 	};
 
@@ -102,14 +95,7 @@ const ArticleVoteAnalysis = (props) => {
 
 			let threshold = props.article.threshold;
 
-			console.log('check ', voteScore * 20 * votesCount.length);
-
 			let averageScore = voteScore * 20 / votesCount.length;
-
-			console.log('average score', averageScore);
-			console.log('threshold', threshold);
-			console.log('votesCount', votesCount.length);
-			console.log('voteScore', voteScore);
 
 			if (votesCount.length >= 3 && averageScore < threshold && props.article.status === 'active') {
 				props.updateArticle(props.article._id, { status: 'rejected' });

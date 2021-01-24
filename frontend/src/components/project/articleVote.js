@@ -72,7 +72,6 @@ const ArticleVote = (props) => {
 		);
 	};
 	const checkIfVoted = () => {
-		console.log('article votes', props.article.votes);
 		if (props.article.votes && props.article.votes.length > 0) {
 			let reviewers = props.article.votes.map((vote) => {
 				return vote.reviewer;
@@ -106,14 +105,7 @@ const ArticleVote = (props) => {
 
 			let threshold = props.article.threshold;
 
-			console.log('check ', voteScore * 20 * votesCount.length);
-
 			let averageScore = voteScore * 20 / votesCount.length;
-
-			console.log('average score', averageScore);
-			console.log('threshold', threshold);
-			console.log('votesCount', votesCount.length);
-			console.log('voteScore', voteScore);
 
 			if (votesCount.length >= 3 && averageScore < threshold && props.article.status === 'active') {
 				props.updateArticle(props.article._id, { status: 'rejected' });

@@ -70,7 +70,7 @@ const ProjectView = (props) => {
 	};
 
 	const handleSubmit = (formValues) => {
-		console.log('yesz');
+	
 	};
 
 	const queryString = () => {
