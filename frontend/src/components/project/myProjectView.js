@@ -47,7 +47,6 @@ const MyProjectView = (props) => {
 		let isSubscribed = true;
 
 		try {
-			
 			props.fetchMyProject(props.projectId);
 		} catch (err) {
 			setError(err);
@@ -59,7 +58,6 @@ const MyProjectView = (props) => {
 		() => {
 			let isSubscribed = true;
 			try {
-			
 				props.fetchMyProject(props.projectId);
 			} catch (err) {
 				setError(err);
@@ -89,9 +87,7 @@ const MyProjectView = (props) => {
 		setPage(currentPage);
 	};
 
-	const handleSubmit = (formValues) => {
-		
-	};
+	const handleSubmit = (formValues) => {};
 
 	const queryString = () => {
 		let values = queryString.parse(props.queryString);
@@ -105,6 +101,34 @@ const MyProjectView = (props) => {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	};
 
+	const sortedArticles = () => {
+		let unsortedArticles = props.project && props.project.articles;
+
+		let sums = unsortedArticles.map(({ votes }) => votes.reduce((s, { score }) => s + score, 0)),
+			result = [ ...sums.keys() ].sort((a, b) => sums[b] - sums[a]).map((i) => unsortedArticles[i]);
+
+		let sortedArticles = result.map((article) => {
+			let voteScore = article.votes.map((vote) => vote.score).reduce((prev, next) => prev + next);
+			let averageScore = voteScore * 20 / article.votes.length;
+			return (
+				<React.Fragment>
+					<MyArticleListItem article={article} key={article._id} />
+					<div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+						<ArticleVoteAnalysis
+							articleId={article._id}
+							article={article}
+							projectId={props.projectId}
+							handleSubmit={() => handleSubmit}
+						/>
+					</div>
+					<hr />
+				</React.Fragment>
+			);
+		});
+
+		return sortedArticles;
+	};
+
 	return (
 		<React.Fragment>
 			<div className="page-header">
@@ -114,23 +138,7 @@ const MyProjectView = (props) => {
 			</div>
 
 			<div className="content-wrapper">
-				<div className="row gutters">
-					{props.project &&
-						props.project.articles.map((article) => (
-							<React.Fragment>
-								<MyArticleListItem article={article} key={article._id} />
-								<div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-									<ArticleVoteAnalysis
-										articleId={article._id}
-										article={article}
-										projectId={props.projectId}
-										handleSubmit={() => handleSubmit}
-									/>
-								</div>
-								<hr />
-							</React.Fragment>
-						))}
-				</div>
+				<div className="row gutters">{sortedArticles()}</div>
 			</div>
 
 			<Modal show={IsOpen} onHide={hideModal} size="lg">
