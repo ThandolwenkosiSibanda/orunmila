@@ -1,7 +1,7 @@
 import axios from '../apis/backend';
 import history from '../history';
 
-// 	FETCH_LOADS
+
 export const fetchArticles = (projectId) => async (dispatch, getState) => {
 	const response = await axios.get(`/articles/${projectId}`);
 	dispatch({ type: 'FETCH_ARTICLES', payload: response.data });

@@ -7,7 +7,6 @@ import { ADD_LOAD, DELETE_LOAD, UPDATE_LOAD, FETCH_LOAD, FETCH_LOADS } from './t
 // 1. They are functions that return action objects that will be called inside the dispatch methods
 // 2. They do not do anything special the just return objects to be called inside the dispatch methods.
 
-//ADD_LOAD
 export const addMyProject = (formValues, csv) => async (dispatch, getState) => {
 	console.log('formValues', formValues);
 	console.log('csv', csv);
@@ -37,13 +36,12 @@ export const deleteMyProject = (projectId) => async (dispatch) => {
 	history.push('/myprojects/?status=active');
 };
 
-//UPDATE_LOAD
+
 export const updateMyProject = (projectId, formValues) => async (dispatch) => {
 	const response = await axios.put(`/api/projects/${projectId}`, formValues);
 	dispatch({ type: 'UPDATE_MY_PROJECT', payload: response.data });
 };
 
-// 	FETCH_PROJECTS
 export const fetchMyProjects = (status) => async (dispatch, getState) => {
 	const { userId } = getState().auth;
 

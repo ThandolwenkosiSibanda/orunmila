@@ -7,7 +7,6 @@ import { LOGIN, LOGOUT } from './types.js';
 // 1. They are functions that return action objects that will be called inside the dispatch methods
 // 2. They do not do anything special the just return objects to be called inside the dispatch methods.
 
-//ADD_LOAD
 export const login = (formValues) => async (dispatch, getState) => {
 	console.log('login', formValues);
 	const response = await axios.post('/api/login', { ...formValues });

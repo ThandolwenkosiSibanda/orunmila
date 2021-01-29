@@ -102,7 +102,9 @@ const MyProjectView = (props) => {
 	};
 
 	const sortedArticles = () => {
-		let unsortedArticles = props.project && props.project.articles;
+		let unsortedArticles =
+			props.project &&
+			props.project.articles.filter((article) => article.status === 'accepted' || article.status === 'active');
 
 		let sums = unsortedArticles.map(({ votes }) => votes.reduce((s, { score }) => s + score, 0)),
 			result = [ ...sums.keys() ].sort((a, b) => sums[b] - sums[a]).map((i) => unsortedArticles[i]);

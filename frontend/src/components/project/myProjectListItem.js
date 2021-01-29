@@ -19,6 +19,9 @@ const MyProjectListItem = (props) => {
 	const [ IsOpen, setIsOpen ] = useState(false);
 	const [ IsOn, setIsOn ] = useState(false);
 	const [ resultsMessage, setResultsMessage ] = useState('');
+	const [ acceptedArticlesCount, setAcceptedArticlesCount ] = useState(0);
+	const [ rejectedArticlesCount, setRejectedArticlesCount ] = useState(0);
+	const [ totalArticlesCount, setTotalArticlesCount ] = useState(0);
 	const [ LoadId, setLoadId ] = useState('');
 
 	useEffect(
@@ -68,13 +71,26 @@ const MyProjectListItem = (props) => {
 		setIsOpen(false);
 	};
 
-	const showResultsModal = () => {
+	const showResultsModal = (articlesCount, acceptedArticles, rejectedArticles, requiredVotes, votesCount) => {
 		setIsOn(true);
-		setResultsMessage('Awaiting Voting From Other Reviewers');
+		if (votesCount < requiredVotes) {
+			setTotalArticlesCount(votesCount);
+			setAcceptedArticlesCount(0);
+			setRejectedArticlesCount(0);
+			setResultsMessage('Awaiting Voting From Other Reviewers');
+		} else {
+			setTotalArticlesCount(votesCount);
+			setAcceptedArticlesCount(acceptedArticles.length);
+			setRejectedArticlesCount(rejectedArticles.length);
+			setResultsMessage('Voting Complete');
+		}
 	};
 
 	const hideResultsModal = () => {
 		setIsOn(false);
+		setTotalArticlesCount(0);
+		setAcceptedArticlesCount(0);
+		setRejectedArticlesCount(0);
 		setResultsMessage('');
 	};
 
@@ -100,14 +116,17 @@ const MyProjectListItem = (props) => {
 		let articlesCount = props.project.articles ? props.project.articles.length : 0;
 		let requiredVotes = reviewersCount * articlesCount;
 
-		if (votesCount >= requiredVotes && reviewersCount < 3) {
-			return '';
-		}
+		let rejectedArticles =
+			props.project && props.project.articles.filter((article) => article.status === 'rejected');
+
+		let acceptedArticles =
+			props.project && props.project.articles.filter((article) => article.status === 'accepted');
+
 		return (
 			<span
 				className="badge badge-info float-right pt-2"
 				onClick={() => {
-					showResultsModal();
+					showResultsModal(articlesCount, acceptedArticles, rejectedArticles, requiredVotes, votesCount);
 				}}
 			>
 				View Results
@@ -143,6 +162,8 @@ const MyProjectListItem = (props) => {
 									<span className=" float-right delete" data-tip="Download Report">
 										<CheckIfVotingCompleted />
 									</span>
+
+									<span className=" float-right delete">{ViewResults()}</span>
 
 									<Link to={`/myprojects/${props.project._id}`}>
 										<p>
@@ -200,10 +221,12 @@ const MyProjectListItem = (props) => {
 
 					<Modal show={IsOn} onHide={hideResultsModal} size="lg">
 						<ModalHeader closeButton>
-							<h6>Pending Votes</h6>
+							<h6>Results</h6>
 						</ModalHeader>
 						<div className="p-1">
-							<h6 className="p-3">{resultsMessage}</h6>
+							<h6 className="p-1">{resultsMessage}</h6>
+							<h6 className="p-1">Accepted Articles:{acceptedArticlesCount} </h6>
+							<h6 className="p-1">Rejected Articles: {rejectedArticlesCount}</h6>
 							<button type="button" className="btn btn-primary float-right" onClick={hideResultsModal}>
 								Ok
 							</button>

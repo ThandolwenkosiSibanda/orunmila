@@ -39,8 +39,8 @@ router.post('/api/reviewers', function(req, res) {
 		secure     : false,
 		requireTLS : true,
 		auth       : {
-			user : 'molowehou@gmail.com',
-			pass : 'thand0l2'
+			user : '<email>',
+			pass : '<password>'
 		}
 	});
 	let mailOptions = {
